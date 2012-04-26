@@ -35,12 +35,11 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.stackoverflow.ArrayUtils;
@@ -65,7 +64,7 @@ public class ItineraryList extends FragmentActivity implements
 
 	private static final String TAG = ItineraryList.class.getSimpleName();
 	private CursorAdapter mAdapter;
-	private ListView mListView;
+	private GridView mListView;
 	private Uri mUri;
 
 	private ImageCache mImageCache;
@@ -128,15 +127,14 @@ public class ItineraryList extends FragmentActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.simple_list_activity);
+		setContentView(R.layout.simple_grid_activity);
 		mProgressBar =(NotificationProgressBar) (findViewById(R.id.progressNotification));
 
 		findViewById(R.id.refresh).setOnClickListener(this);
 		findViewById(R.id.home).setOnClickListener(this);
 
-		mListView = (ListView) findViewById(android.R.id.list);
+		mListView = (GridView) findViewById(android.R.id.list);
 		mListView.setOnItemClickListener(this);
-		mListView.addFooterView(LayoutInflater.from(this).inflate(R.layout.list_footer, null), null, false);
 		mListView.setEmptyView(findViewById(R.id.progressNotification));
 		mRefresh = (RefreshButton) findViewById(R.id.refresh);
 		mRefresh.setOnClickListener(this);
@@ -200,7 +198,7 @@ public class ItineraryList extends FragmentActivity implements
 
 	/**
 	 * Override this if you wish to use IDs other than {@link #ITINERARY_LAYOUT_IDS}.
-	 * 
+	 *
 	 * @return the list of view ids to map the {@link #getItineraryDisplay()} to
 	 */
 	public int[] getItineraryLayoutIds() {

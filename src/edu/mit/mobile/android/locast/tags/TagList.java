@@ -12,7 +12,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.stackoverflow.ArrayUtils;
@@ -36,11 +36,11 @@ public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 
-		setContentView(R.layout.simple_list_activity);
+		setContentView(R.layout.simple_grid_activity);
 
 		setTitle(getTitle());
 
-		final ListView list = (ListView) findViewById(android.R.id.list);
+		final GridView list = (GridView) findViewById(android.R.id.list);
 
 		mAdapter = new SimpleCursorAdapter(this, getTagItemLayout(), null, getTagDisplay(),
 				getTagLayoutIds(), 0);

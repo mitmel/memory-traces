@@ -7,35 +7,34 @@
     <ImageView
         android:id="@+id/media_thumbnail"
         style="@style/Thumbnail"
-        android:layout_width="48dip"
-        android:layout_height="48dip"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dip"
-        android:background="@drawable/picture_frame" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/picture_frame_outline"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@android:id/text1"
         style="@style/CastListItem.Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/foreground_light_emphasis"
-        android:textStyle="bold|italic"
-        android:layout_toRightOf="@id/media_thumbnail"
-        android:paddingBottom="1dip"
-        android:paddingLeft="6dip"
+        android:layout_alignLeft="@+id/media_thumbnail"
+        android:layout_below="@id/media_thumbnail"
         android:paddingRight="1dip"
-        android:paddingTop="6dip" />
+        android:textColor="@color/foreground_light_emphasis"
+        android:textSize="14sp"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@android:id/text2"
         style="@style/CastListItem.Description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@android:id/text1"
         android:layout_below="@android:id/text1"
-        android:layout_toRightOf="@id/media_thumbnail"
         android:paddingBottom="1dip"
-        android:paddingLeft="6dip"
-        android:paddingRight="1dip"
-        android:paddingTop="6dip" />
+        android:paddingRight="1dip" />
+
 </RelativeLayout>
