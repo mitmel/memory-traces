@@ -10,8 +10,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dip"
-        android:visibility="gone"
-        android:button="@drawable/btn_favorite" />
+        android:button="@drawable/btn_favorite"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/title"
@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="6dip"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dip"
@@ -31,12 +32,12 @@
         android:id="@+id/author"
         style="@style/Cast.Description"
         android:layout_width="fill_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginBottom="10dip"
         android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip" />
+        android:layout_marginRight="10dip"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/cast_media_holder"
@@ -44,16 +45,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/author" >
 
-		<edu.mit.mobile.android.widget.NotificationProgressBar
-		 android:id="@+id/progressNotification"
-		 android:layout_width="fill_parent"
-		 android:layout_height="wrap_content"
-		 android:visibility="gone"
-		 style="@style/EmptyList"
-		 android:text="@string/empty_castmedia"
-		 >		 
-		 
-		</edu.mit.mobile.android.widget.NotificationProgressBar>
+        <edu.mit.mobile.android.widget.NotificationProgressBar
+            android:id="@+id/progressNotification"
+            style="@style/EmptyList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_castmedia"
+            android:visibility="gone" >
+        </edu.mit.mobile.android.widget.NotificationProgressBar>
+
         <Gallery
             android:id="@+id/cast_media"
             android:layout_width="fill_parent"
@@ -66,8 +66,8 @@
     </FrameLayout>
 
     <TextView
-        style="@style/Cast.Description"
         android:id="@+id/description"
+        style="@style/Cast.Description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/cast_media_holder"

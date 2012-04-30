@@ -23,8 +23,8 @@
         android:layout_alignLeft="@+id/media_thumbnail"
         android:layout_below="@id/media_thumbnail"
         android:paddingRight="1dip"
+        android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@color/foreground_light_emphasis"
-        android:textSize="14sp"
         android:textStyle="bold|italic" />
 
     <TextView
@@ -32,6 +32,7 @@
         style="@style/CastListItem.Description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:minLines="2"
         android:layout_alignLeft="@android:id/text1"
         android:layout_below="@android:id/text1"
         android:paddingBottom="1dip"
