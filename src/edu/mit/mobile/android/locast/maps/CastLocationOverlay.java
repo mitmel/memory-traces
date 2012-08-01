@@ -7,7 +7,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class CastLocationOverlay extends ItemizedOverlay<OverlayItem> {
 	private OverlayItem mOverlayItem;

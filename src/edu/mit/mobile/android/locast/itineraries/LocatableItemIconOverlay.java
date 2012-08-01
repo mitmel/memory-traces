@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.itineraries;
+package edu.mit.mobile.android.locast.itineraries;
 
 import android.database.ContentObserver;
 import android.database.Cursor;

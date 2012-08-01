@@ -20,7 +20,7 @@ package edu.mit.mobile.android.locast;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.widget.DiscussionBoard;
 
 public class DiscussionActivity extends Activity {

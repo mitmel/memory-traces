@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.casts;
+package edu.mit.mobile.android.locast.casts;
 
 import java.io.File;
 import java.util.HashMap;
@@ -61,7 +61,7 @@ import edu.mit.mobile.android.locast.data.CastMedia;
 import edu.mit.mobile.android.locast.data.Locatable;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.data.TaggableItem;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.widget.TagList;
 import edu.mit.mobile.android.locast.widget.TagList.OnTagListChangeListener;
 import edu.mit.mobile.android.utils.ResourceUtils;

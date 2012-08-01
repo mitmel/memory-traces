@@ -4,7 +4,7 @@ import android.os.Bundle;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.tags.TagList;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.TextViewUtils;
 import edu.mit.mobile.android.widget.TypefaceSwitcher;
 

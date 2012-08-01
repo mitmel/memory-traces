@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.mit.mobile.android.locast.ver2"
+    package="edu.mit.mobile.android.locast.memorytraces"
     android:installLocation="auto"
     android:versionCode="33"
     android:versionName="2.4 Memory Traces" >
@@ -80,7 +80,7 @@
                 <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.casts" />
             </intent-filter>
         </activity>
-        <activity android:name=".casts.LocatableListWithMap" >
+        <activity android:name="edu.mit.mobile.android.locast.casts.LocatableListWithMap" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -92,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".casts.VideoPlayer"
+            android:name="edu.mit.mobile.android.locast.casts.VideoPlayer"
             android:configChanges="orientation"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
@@ -105,7 +105,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".casts.CastEdit"
+            android:name="edu.mit.mobile.android.locast.casts.CastEdit"
             android:configChanges="orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
@@ -129,17 +129,6 @@
 
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".events.EventDetail"
-            android:process="edu.mit.mobile.android.locast.Detail" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <!-- <action android:name="android.intent.action.DELETE" /> -->
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.events" />
             </intent-filter>
         </activity>
 
@@ -182,7 +171,7 @@
         -->
 
         <activity
-            android:name=".browser.BrowserHome"
+            android:name="edu.mit.mobile.android.locast.browser.BrowserHome"
             android:label="@string/app_name" >
         </activity>
         <activity android:name="edu.mit.mobile.android.locast.memorytraces.StoryList" >
@@ -195,11 +184,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".casts.UnsyncedCastsActivity"
+            android:name="edu.mit.mobile.android.locast.casts.UnsyncedCastsActivity"
             android:label="@string/unicef_unsynced_casts"
-            android:taskAffinity="edu.mit.mobile.android.locast.ver2.casts.UnsyncedCastsActivity" >
+            android:taskAffinity="edu.mit.mobile.android.locast.memorytraces.casts.UnsyncedCastsActivity" >
         </activity>
-        <activity android:name=".itineraries.ItineraryDetail" >
+        <activity android:name="edu.mit.mobile.android.locast.itineraries.ItineraryDetail" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -344,7 +333,7 @@
         <!-- end Constants.USE_ACCOUNT_FRAMEWORK=true commented section -->
 
         <activity
-            android:name=".browser.ResetActivity"
+            android:name="edu.mit.mobile.android.locast.browser.ResetActivity"
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Dialog" />
 

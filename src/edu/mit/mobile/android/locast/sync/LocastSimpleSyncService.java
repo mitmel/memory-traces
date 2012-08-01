@@ -27,7 +27,7 @@ import edu.mit.mobile.android.locast.net.NetworkClient;
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
 import edu.mit.mobile.android.locast.net.NotificationProgressListener;
 import edu.mit.mobile.android.locast.notifications.ProgressNotification;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 /**
  * <p>

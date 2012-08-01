@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.casts;
+package edu.mit.mobile.android.locast.casts;
 
 /*
  * Copyright (C) 2011-2012 MIT Mobile Experience Lab
@@ -57,20 +57,17 @@ import com.google.android.maps.Overlay;
 import edu.mit.mobile.android.imagecache.ImageCache;
 import edu.mit.mobile.android.imagecache.ImageLoaderAdapter;
 import edu.mit.mobile.android.locast.Constants;
-import edu.mit.mobile.android.locast.casts.CastCursorAdapter;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Event;
 import edu.mit.mobile.android.locast.data.Favoritable;
 import edu.mit.mobile.android.locast.data.Locatable;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.data.TaggableItem;
+import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay;
 import edu.mit.mobile.android.locast.maps.CastsOverlay;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.events.EventCursorAdapter;
-import edu.mit.mobile.android.locast.ver2.itineraries.BasicLocatableOverlay;
-import edu.mit.mobile.android.locast.ver2.itineraries.LocatableItemOverlay;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 
@@ -203,22 +200,6 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 
 			mSearchRadius = 1500;
 
-		}else if (MediaProvider.TYPE_EVENT_DIR.equals(type)){
-
-			title = getString(R.string.title_upcoming_events);
-			mSearchRadius = 10000;
-
-			mAdapter = new EventCursorAdapter(this,
-					R.layout.browse_content_item,
-					null,
-					new String[]{Event._TITLE, Event._START_DATE},
-					new int[]{android.R.id.text1, android.R.id.text2},
-					new int[]{}, 0);
-
-			mListView.setAdapter(mAdapter);
-			initMapOverlays(new BasicLocatableOverlay(
-					LocatableItemOverlay.boundCenterBottom(getResources().getDrawable(
-							R.drawable.ic_map_event)), mMapView));
 		}else{
 			throw new IllegalArgumentException("Unhandled content type " + type);
 		}

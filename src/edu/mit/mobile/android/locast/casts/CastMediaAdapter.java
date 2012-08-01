@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.casts;
+package edu.mit.mobile.android.locast.casts;
 /*
  * Copyright (C) 2011  MIT Mobile Experience Lab
  *
@@ -26,7 +26,7 @@ import com.stackoverflow.ArrayUtils;
 
 import edu.mit.mobile.android.imagecache.SimpleThumbnailCursorAdapter;
 import edu.mit.mobile.android.locast.data.CastMedia;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class CastMediaAdapter extends SimpleThumbnailCursorAdapter {
 

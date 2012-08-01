@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.casts;
+package edu.mit.mobile.android.locast.casts;
 /*
  * Copyright (C) 2011  MIT Mobile Experience Lab
  *
@@ -29,9 +29,9 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay;
 import edu.mit.mobile.android.locast.maps.MapsUtils;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.itineraries.LocatableItemOverlay;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.maps.PointerShadow;
 import edu.mit.mobile.android.maps.PointerShadowOverlay;
 

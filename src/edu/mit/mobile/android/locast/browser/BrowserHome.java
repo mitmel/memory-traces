@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.browser;
+package edu.mit.mobile.android.locast.browser;
 
 /*
  * Copyright (C) 2011  MIT Mobile Experience Lab
@@ -48,14 +48,14 @@ import edu.mit.mobile.android.locast.accounts.AuthenticatorActivity;
 import edu.mit.mobile.android.locast.accounts.AuthenticatorActivity.LogoutHandler;
 import edu.mit.mobile.android.locast.accounts.SigninOrSkip;
 import edu.mit.mobile.android.locast.casts.CastCursorAdapter;
+import edu.mit.mobile.android.locast.casts.LocatableListWithMap;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Event;
 import edu.mit.mobile.android.locast.data.Favoritable;
 import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.casts.LocatableListWithMap;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 

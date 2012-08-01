@@ -19,7 +19,7 @@ import com.stackoverflow.ArrayUtils;
 
 import edu.mit.mobile.android.locast.data.Tag;
 import edu.mit.mobile.android.locast.data.TaggableItem;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>,
 		OnItemClickListener {

@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.itineraries;
+package edu.mit.mobile.android.locast.itineraries;
 
 /*
  * Copyright (C) 2011  MIT Mobile Experience Lab
@@ -55,7 +55,7 @@ import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 

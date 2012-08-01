@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import edu.mit.mobile.android.locast.casts.LocatableListWithMap;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Itinerary;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.casts.LocatableListWithMap;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.TextViewUtils;
 import edu.mit.mobile.android.widget.TypefaceSwitcher;
 

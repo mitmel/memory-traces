@@ -30,7 +30,7 @@ import edu.mit.mobile.android.locast.data.Favoritable;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.net.NetworkClient;
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.ValidatingCheckBox;
 import edu.mit.mobile.android.widget.ValidatingCheckBox.ValidatedClickHandler;
 

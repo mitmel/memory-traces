@@ -1,10 +1,10 @@
 package edu.mit.mobile.android.locast.memorytraces;
 
 import android.os.Bundle;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.TypefaceSwitcher;
 
-public class CastDetail extends edu.mit.mobile.android.locast.ver2.casts.CastDetail {
+public class CastDetail extends edu.mit.mobile.android.locast.casts.CastDetail {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

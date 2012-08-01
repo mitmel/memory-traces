@@ -42,7 +42,7 @@ import android.widget.TextView.OnEditorActionListener;
 import edu.mit.mobile.android.content.ProviderUtils;
 import edu.mit.mobile.android.locast.data.Comment;
 import edu.mit.mobile.android.locast.sync.LocastSync;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class DiscussionBoard extends ListView implements OnClickListener, OnEditorActionListener {
 	public static final String TAG = DiscussionBoard.class.getSimpleName();

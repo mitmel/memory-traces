@@ -2,8 +2,8 @@ package edu.mit.mobile.android.locast.memorytraces;
 
 import android.os.Bundle;
 import edu.mit.mobile.android.locast.data.Itinerary;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.itineraries.ItineraryList;
+import edu.mit.mobile.android.locast.itineraries.ItineraryList;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.widget.TypefaceSwitcher;
 
 public class StoryList extends ItineraryList {

@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.browser;
+package edu.mit.mobile.android.locast.browser;
 /*
  * Copyright (C) 2011  MIT Mobile Experience Lab
  *
@@ -36,7 +36,7 @@ import edu.mit.mobile.android.locast.data.Comment;
 import edu.mit.mobile.android.locast.data.Event;
 import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.data.MediaProvider;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class ResetActivity extends Activity implements OnClickListener {
 	private static final String TAG = ResetActivity.class.getSimpleName();

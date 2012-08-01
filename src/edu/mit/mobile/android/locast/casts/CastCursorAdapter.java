@@ -25,7 +25,7 @@ import com.stackoverflow.ArrayUtils;
 
 import edu.mit.mobile.android.imagecache.SimpleThumbnailCursorAdapter;
 import edu.mit.mobile.android.locast.data.Cast;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class CastCursorAdapter extends SimpleThumbnailCursorAdapter {
 	public final static String[] DEFAULT_FROM = new String[] { Cast._THUMBNAIL_URI, Cast._REF_TIME,

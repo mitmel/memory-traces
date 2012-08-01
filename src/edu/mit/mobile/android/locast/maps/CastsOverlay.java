@@ -27,8 +27,8 @@ import com.google.android.maps.OverlayItem;
 import com.stackoverflow.ArrayUtils;
 
 import edu.mit.mobile.android.locast.data.Cast;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.itineraries.LocatableItemOverlay;
+import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class CastsOverlay extends LocatableItemOverlay {
 	private int mOfficialCol, mTitleCol, mDescriptionCol;

@@ -10,9 +10,9 @@ import com.google.android.maps.OverlayItem;
 import com.stackoverflow.ArrayUtils;
 
 import edu.mit.mobile.android.locast.data.Cast;
-import edu.mit.mobile.android.locast.ver2.R;
-import edu.mit.mobile.android.locast.ver2.itineraries.LocatableItemIconOverlay;
-import edu.mit.mobile.android.locast.ver2.itineraries.LocatableItemOverlay.ComparableOverlayItem;
+import edu.mit.mobile.android.locast.itineraries.LocatableItemIconOverlay;
+import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay.ComparableOverlayItem;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class CastsIconOverlay extends LocatableItemIconOverlay {
 

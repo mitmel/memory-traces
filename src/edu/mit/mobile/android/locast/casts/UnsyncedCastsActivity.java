@@ -1,4 +1,4 @@
-package edu.mit.mobile.android.locast.ver2.casts;
+package edu.mit.mobile.android.locast.casts;
 /*
  * Copyright (C) 2010  MIT Mobile Experience Lab
  *
@@ -43,12 +43,11 @@ import android.widget.TextView;
 import edu.mit.mobile.android.locast.accounts.AuthenticationService;
 import edu.mit.mobile.android.locast.accounts.Authenticator;
 import edu.mit.mobile.android.locast.accounts.SigninOrSkip;
-import edu.mit.mobile.android.locast.casts.CastListActivity;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.JsonSyncableItem;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.SyncEngine;
-import edu.mit.mobile.android.locast.ver2.R;
+import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class UnsyncedCastsActivity extends CastListActivity implements
 		AccountManagerCallback<Boolean>, OnClickListener {
