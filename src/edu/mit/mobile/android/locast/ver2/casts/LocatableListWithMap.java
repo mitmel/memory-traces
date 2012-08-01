@@ -65,7 +65,7 @@ import edu.mit.mobile.android.locast.data.Locatable;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.data.TaggableItem;
 import edu.mit.mobile.android.locast.maps.CastsOverlay;
-import edu.mit.mobile.android.locast.sync.LocastSyncService;
+import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.ver2.R;
 import edu.mit.mobile.android.locast.ver2.events.EventCursorAdapter;
@@ -385,7 +385,7 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 			return;
 		}
 		mLastUpdate = System.nanoTime();
-		LocastSyncService.startSync(this, mContentNearLocation, explicitSync);
+		LocastSync.startSync(this, mContentNearLocation, explicitSync);
 	}
 
 	@Override
@@ -479,7 +479,7 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 		if (mExpeditedSync){
 			mExpeditedSync = false;
 			if (mListView.getAdapter().isEmpty()){
-				LocastSyncService.startExpeditedAutomaticSync(this, mContentNearLocation);
+				LocastSync.startExpeditedAutomaticSync(this, mContentNearLocation);
 			}
 		}
 	}

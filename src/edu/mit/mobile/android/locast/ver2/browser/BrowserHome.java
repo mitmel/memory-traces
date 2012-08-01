@@ -52,7 +52,7 @@ import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Event;
 import edu.mit.mobile.android.locast.data.Favoritable;
 import edu.mit.mobile.android.locast.data.Itinerary;
-import edu.mit.mobile.android.locast.sync.LocastSyncService;
+import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.ver2.R;
 import edu.mit.mobile.android.locast.ver2.casts.LocatableListWithMap;
@@ -180,7 +180,7 @@ public class BrowserHome extends FragmentActivity implements LoaderManager.Loade
 	private void refresh(boolean explicitSync) {
 
 		// the default sync should get all the things we care about for the home screen.
-		LocastSyncService.startSync(this, null, explicitSync);
+		LocastSync.startSync(this, null, explicitSync);
 	}
 
 	@Override

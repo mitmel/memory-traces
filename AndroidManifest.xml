@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto"
     package="edu.mit.mobile.android.locast.ver2"
+    android:installLocation="auto"
     android:versionCode="33"
     android:versionName="2.4 Memory Traces" >
 
@@ -13,14 +13,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--
-    <uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    -->
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- If Constants.USE_ACCOUNT_FRAMEWORK is true, these should be uncommented: -->
+
+
+    <!--
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -28,9 +28,15 @@
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    -->
 
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+
+    <!-- for using the templated recorder -->
     <!--
+    <uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    
     <uses-feature android:name="android.hardware.camera" />
 	<uses-feature android:name="android.hardware.camera.autofocus" />
     -->
@@ -98,7 +104,9 @@
                 <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.castmedia" />
             </intent-filter>
         </activity>
-        <activity android:name=".casts.CastEdit" android:configChanges="orientation">
+        <activity
+            android:name=".casts.CastEdit"
+            android:configChanges="orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
 
@@ -122,7 +130,6 @@
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
             </intent-filter>
-            
         </activity>
         <activity
             android:name=".events.EventDetail"
@@ -186,13 +193,11 @@
 
                 <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.itineraries" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".casts.UnsyncedCastsActivity"
             android:label="@string/unicef_unsynced_casts"
             android:taskAffinity="edu.mit.mobile.android.locast.ver2.casts.UnsyncedCastsActivity" >
-
         </activity>
         <activity android:name=".itineraries.ItineraryDetail" >
             <intent-filter>
@@ -203,21 +208,23 @@
                 <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.itineraries" />
             </intent-filter>
         </activity>
-
-        
-        <activity android:name="edu.mit.mobile.android.locast.memorytraces.Home" android:label="@string/app_name">
-           <intent-filter>
+        <activity
+            android:name="edu.mit.mobile.android.locast.memorytraces.Home"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        
-        <activity android:name="edu.mit.mobile.android.locast.memorytraces.ThemesList" android:label="@string/themes" >
-            <intent-filter >
+        <activity
+            android:name="edu.mit.mobile.android.locast.memorytraces.ThemesList"
+            android:label="@string/themes" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.tags" />
             </intent-filter>
         </activity>
@@ -225,37 +232,6 @@
 		*****************************************************************************************************
 		*                                              Sync                                                 *
 		*****************************************************************************************************
-        -->
-        <!--
-		<service android:name="edu.mit.mobile.android.locast.data.Sync"
-		android:process="edu.mit.mobile.android.locast.Sync"
-		>
-			<intent-filter>
-				<action android:name="edu.mit.mobile.android.locast.ACTION_CANCEL_SYNC" />
-				<data android:mimeType="*/*" />
-			</intent-filter>
-			
-			<intent-filter>
-				<action android:name="android.intent.action.SYNC" />
-				<data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.casts" />
-				<data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.casts" />
-				<data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.castmedia" />
-				<data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.castmedia" />
-				<data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.comments" />
-				<data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.comments" />
-				<data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.itineraries" />
-				<data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.itineraries" />
-				<data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.events" />
-				<data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.events" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.SYNC" />
-				<data android:scheme="http" android:host="locast.mit.edu" />
-				<data android:scheme="https" android:host="locast.mit.edu" />
-				<data android:scheme="http" android:host="mel-pydev.mit.edu" />
-				<data android:scheme="https" android:host="mel-pydev.mit.edu" />
-				</intent-filter>
-		</service>
         -->
 
 
@@ -268,7 +244,6 @@
 
                 <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.castmedia" />
             </intent-filter>
-            
             <intent-filter>
                 <action android:name="edu.mit.mobile.android.locast.ACTION_SYNC_RESOURCES" />
             </intent-filter>
@@ -278,7 +253,50 @@
             android:name="edu.mit.mobile.android.locast.data.MediaProvider"
             android:authorities="edu.mit.mobile.android.locast.ver2.provider" />
 
+        <!-- if Constants.USE_ACCOUNT_FRAMEWORK is false, uncomment this. Otherwise comment it out. -->
+
         <service
+            android:name="edu.mit.mobile.android.locast.sync.LocastSimpleSyncService"
+            android:exported="false"
+            android:process="edu.mit.mobile.android.locast.Sync" >
+            <intent-filter>
+                <action android:name="edu.mit.mobile.android.locast.ACTION_CANCEL_SYNC" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SYNC" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.casts" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.casts" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.castmedia" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.castmedia" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.comments" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.comments" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.ver2.itineraries" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.ver2.itineraries" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SYNC" />
+
+                <data
+                    android:host="locast.mit.edu"
+                    android:scheme="http" />
+                <data
+                    android:host="locast.mit.edu"
+                    android:scheme="https" />
+                <data
+                    android:host="mel-pydev.mit.edu"
+                    android:scheme="http" />
+                <data
+                    android:host="mel-pydev.mit.edu"
+                    android:scheme="https" />
+            </intent-filter>
+        </service>
+
+        <!-- if Constants.USE_ACCOUNT_FRAMEWORK is true, uncomment these. Otherwise comment it out. -->
+        <!--
+         <service
             android:name="edu.mit.mobile.android.locast.accounts.AuthenticationService"
             android:exported="true" >
             <intent-filter>
@@ -312,14 +330,19 @@
             android:excludeFromRecents="true"
             android:label="@string/app_name" >
 
-            <!--
+            
 			No intent-filter here! This activity is only ever launched by someone
 			who explicitly knows the class name
-            -->
+           
         </activity>
         <activity
             android:name="edu.mit.mobile.android.locast.accounts.SigninOrSkip"
-            android:excludeFromRecents="true" />
+            android:excludeFromRecents="true" /> 
+        -->
+
+
+        <!-- end Constants.USE_ACCOUNT_FRAMEWORK=true commented section -->
+
         <activity
             android:name=".browser.ResetActivity"
             android:excludeFromRecents="true"

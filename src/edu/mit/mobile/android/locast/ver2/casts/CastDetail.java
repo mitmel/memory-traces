@@ -53,7 +53,7 @@ import edu.mit.mobile.android.locast.accounts.SigninOrSkip;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.CastMedia;
 import edu.mit.mobile.android.locast.maps.CastsOverlay;
-import edu.mit.mobile.android.locast.sync.LocastSyncService;
+import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.ver2.R;
 import edu.mit.mobile.android.locast.ver2.itineraries.LocatableItemOverlay;
@@ -194,7 +194,7 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 				break;
 
 			case R.id.refresh:
-				LocastSyncService.startSync(this, getIntent().getData(), true);
+				LocastSync.startSync(this, getIntent().getData(), true);
 				break;
 		}
 	}
@@ -258,7 +258,7 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 				 * MediaProvider.dumpCursorToLog(c, CastMedia.PROJECTION); }
 				 */
 				if (mFirstLoad && c.getCount() == 0) {
-					LocastSyncService.startExpeditedAutomaticSync(this, mCastMediaUri);
+					LocastSync.startExpeditedAutomaticSync(this, mCastMediaUri);
 				}
 				mFirstLoad = false;
 

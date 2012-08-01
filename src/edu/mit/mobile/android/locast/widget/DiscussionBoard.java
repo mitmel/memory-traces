@@ -41,7 +41,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import edu.mit.mobile.android.content.ProviderUtils;
 import edu.mit.mobile.android.locast.data.Comment;
-import edu.mit.mobile.android.locast.sync.LocastSyncService;
+import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.ver2.R;
 
 public class DiscussionBoard extends ListView implements OnClickListener, OnEditorActionListener {
@@ -143,7 +143,7 @@ public class DiscussionBoard extends ListView implements OnClickListener, OnEdit
        		ProviderUtils.dumpCursorToLog(c, Comment.PROJECTION);
        	}
 
-       	LocastSyncService.startSync(getContext(), thisThread, false);
+       	LocastSync.startSync(getContext(), thisThread, false);
 
     	c.registerContentObserver(new ContentObserver(new Handler()) {
     		@Override
