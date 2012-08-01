@@ -20,7 +20,9 @@ package edu.mit.mobile.android.locast;
 
 public class Constants {
 
-	public static final String AUTHORITY = "edu.mit.mobile.android.locast";
+	public static final String PACKAGE = "edu.mit.mobile.android.locast.memorytraces";
+
+	public static final String ACCOUNT_AUTHORITY = PACKAGE;
 
 	/**
 	 * General debugging flag. This needs to be a constant so that the compiler will remove any

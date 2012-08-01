@@ -58,6 +58,7 @@ import edu.mit.mobile.android.content.ForeignKeyDBHelper;
 import edu.mit.mobile.android.content.ProviderUtils;
 import edu.mit.mobile.android.content.m2m.M2MDBHelper;
 import edu.mit.mobile.android.content.m2m.M2MReverseHelper;
+import edu.mit.mobile.android.locast.Constants;
 import edu.mit.mobile.android.locast.accounts.AuthenticationService;
 import edu.mit.mobile.android.locast.accounts.Authenticator;
 import edu.mit.mobile.android.locast.sync.LocastSync;
@@ -65,7 +66,7 @@ import edu.mit.mobile.android.utils.ListUtils;
 
 public class MediaProvider extends ContentProvider {
 	private final static String TAG = MediaProvider.class.getSimpleName();
-	public final static String NAMESPACE = "edu.mit.mobile.android.locast.ver2";
+	public final static String NAMESPACE = Constants.PACKAGE;
 	public final static String AUTHORITY = NAMESPACE + ".provider";
 
 

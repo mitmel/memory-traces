@@ -31,7 +31,7 @@ public class AuthenticationService extends Service {
     private Authenticator mAuthenticator;
 
 	public static final String
- AUTHORITY = Constants.AUTHORITY,
+ AUTHORITY = Constants.ACCOUNT_AUTHORITY,
 		ACCOUNT_TYPE = AUTHORITY,
 		AUTHTOKEN_TYPE = AUTHORITY,
 		USERDATA_USERID = "id",
