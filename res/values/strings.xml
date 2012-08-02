@@ -172,7 +172,7 @@
 	<string name="title_nearby">%1$s Nearby</string>
 	<string name="title_favorited">Favorite %1$s</string>
 	<string name="title_unfavorited">Non-favorite %1$s</string>
-	<string name="itinerary_no_casts">There are no casts in this map.</string>
+	<string name="itinerary_no_casts">There are no stories for this person.</string>
 	<string name="list_empty">No items in this list.</string>
 	<string name="error_loading_event">Error loading event.</string>
 	<string name="auth_username_hint">alice@example.org</string>
@@ -184,7 +184,7 @@
 	<!-- placeholder 1 is app name -->
 	<string name="auth_logout_message">This will log you out of %1$s and delete all synchronized content from your device.</string>
 	<string name="auth_logout_error">There was an error logging you out.</string>
-	<string name="empty_castmedia">There are no media in this cast.</string>
+	<string name="empty_castmedia">There are no media in this story.</string>
 	<string name="error_cast_media_no_activities">We\'re sorry, but there doesn\'t seem to be a way to play this media on your device.</string>
 	<string name="itineraries">Stories</string>
 	<string name="nearby">Nearby</string>
