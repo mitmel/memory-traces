@@ -59,9 +59,9 @@ import edu.mit.mobile.android.locast.casts.CastCursorAdapter;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.maps.CastsIconOverlay;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
-import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.maps.PathOverlay;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
@@ -97,7 +97,7 @@ public class ItineraryDetail extends MapFragmentActivity implements
 
 	private boolean mFirstLoadSync = true;
 
-	private static final String[] ITINERARY_PROJECTION = new String[] { Itinerary._ID,
+	protected static final String[] ITINERARY_PROJECTION = new String[] { Itinerary._ID,
 			Itinerary._DESCRIPTION, Itinerary._TITLE, Itinerary._CASTS_COUNT, Itinerary._PATH };
 
 	private RefreshButton mRefresh;
@@ -134,7 +134,7 @@ public class ItineraryDetail extends MapFragmentActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		super.onCreate(icicle);
-		setContentView(R.layout.itinerary_detail);
+		setContentView(getContentView());
 
 		mProgressBar = (NotificationProgressBar) (findViewById(R.id.progressNotification));
 
@@ -196,6 +196,14 @@ public class ItineraryDetail extends MapFragmentActivity implements
 		} else {
 			finish();
 		}
+	}
+
+	protected int getContentView() {
+		return R.layout.itinerary_detail;
+	}
+
+	protected String[] getItineraryDisplay() {
+		return ITINERARY_PROJECTION;
 	}
 
 	@Override
@@ -284,6 +292,12 @@ public class ItineraryDetail extends MapFragmentActivity implements
 		}
 	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		super.setTitle(title);
+		((TextView) findViewById(android.R.id.title)).setText(title);
+	}
+
 	private void initCastList() {
 
 		mCastAdapter = new CastCursorAdapter(ItineraryDetail.this, null);
@@ -359,7 +373,7 @@ public class ItineraryDetail extends MapFragmentActivity implements
 
 		switch (id) {
 			case LOADER_ITINERARY:
-				cl = new CursorLoader(this, uri, ITINERARY_PROJECTION, null, null, null);
+				cl = new CursorLoader(this, uri, getItineraryDisplay(), null, null, null);
 				break;
 
 			case LOADER_CASTS:
@@ -378,50 +392,7 @@ public class ItineraryDetail extends MapFragmentActivity implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
 		switch (loader.getId()) {
 			case LOADER_ITINERARY: {
-				if (c.moveToFirst()) {
-					mItineraryCastCount = c.getInt(c.getColumnIndex(Itinerary._CASTS_COUNT));
-					final String description = c
-							.getString(c.getColumnIndex(Itinerary._DESCRIPTION));
-					((TextView) findViewById(R.id.description)).setText(description);
-					((TextView) findViewById(R.id.description_empty)).setText(description);
-
-					((TextView) findViewById(android.R.id.title)).setText(c.getString(c
-							.getColumnIndex(Itinerary._TITLE)));
-
-					if (USE_MAP) {
-						final List<GeoPoint> path = Itinerary.getPath(c);
-						mPathOverlay.setPath(path);
-
-						if (!path.isEmpty()) {
-							mMapController.setCenter(mPathOverlay.getCenter());
-						}
-
-						if (Constants.USES_OSMDROID) {
-							// this needs to be run after the MapView has been first sized due to a
-							// bug in zoomToSpan()
-							mMapView.post(new Runnable() {
-
-								@Override
-								public void run() {
-									if (mMapView.getHeight() > 0) {
-										mMapController.zoomToSpan(mPathOverlay.getLatSpanE6(),
-												mPathOverlay.getLonSpanE6());
-									} else {
-										mMapView.post(this);
-									}
-								}
-							});
-						} else {
-							mMapController.zoomToSpan(mPathOverlay.getLatSpanE6(),
-									mPathOverlay.getLonSpanE6());
-						}
-
-						mMapView.setVisibility(View.VISIBLE);
-					}
-				} else {
-					Log.e(TAG, "error loading itinerary");
-				}
-
+				displayItinerary(loader, c);
 			}
 				break;
 
@@ -438,6 +409,53 @@ public class ItineraryDetail extends MapFragmentActivity implements
 				}
 			}
 				break;
+		}
+	}
+
+	protected void displayItinerary(Loader<Cursor> loader, Cursor c) {
+		if (c.moveToFirst()) {
+			mItineraryCastCount = c.getInt(c.getColumnIndex(Itinerary._CASTS_COUNT));
+			final String description = c.getString(c.getColumnIndex(Itinerary._DESCRIPTION));
+			((TextView) findViewById(R.id.description)).setText(description);
+			((TextView) findViewById(R.id.description_empty)).setText(description);
+
+			setTitle(c.getString(c
+					.getColumnIndex(Itinerary._TITLE)));
+			// ((TextView) findViewById(android.R.id.title)).setText(c.getString(c
+			// .getColumnIndex(Itinerary._TITLE)));
+
+			if (USE_MAP) {
+				final List<GeoPoint> path = Itinerary.getPath(c);
+				mPathOverlay.setPath(path);
+
+				if (!path.isEmpty()) {
+					mMapController.setCenter(mPathOverlay.getCenter());
+				}
+
+				if (Constants.USES_OSMDROID) {
+					// this needs to be run after the MapView has been first sized due to a
+					// bug in zoomToSpan()
+					mMapView.post(new Runnable() {
+
+						@Override
+						public void run() {
+							if (mMapView.getHeight() > 0) {
+								mMapController.zoomToSpan(mPathOverlay.getLatSpanE6(),
+										mPathOverlay.getLonSpanE6());
+							} else {
+								mMapView.post(this);
+							}
+						}
+					});
+				} else {
+					mMapController.zoomToSpan(mPathOverlay.getLatSpanE6(),
+							mPathOverlay.getLonSpanE6());
+				}
+
+				mMapView.setVisibility(View.VISIBLE);
+			}
+		} else {
+			Log.e(TAG, "error loading itinerary");
 		}
 	}
 

@@ -11,18 +11,6 @@
         android:layout_height="wrap_content"
         style="@style/Notice">
 
-        <ToggleButton
-            android:id="@+id/follow"
-            android:layout_width="80sp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dip"
-            android:text="@string/follow"
-            android:textOff="@string/follow"
-            android:textOn="@string/unfollow"
-            android:visibility="gone" />
-
         <TextView
             android:id="@android:id/title"
             style="@style/ItineraryTitle"
@@ -31,7 +19,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_alignWithParentIfMissing="true"
-            android:layout_toRightOf="@id/follow" />
+             />
     </RelativeLayout>
 
     <FrameLayout
