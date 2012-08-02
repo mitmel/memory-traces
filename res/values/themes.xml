@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<style name="Browser" parent="LightTheme">
-		<item name="android:colorForeground">@color/charred_orange</item>
-		<item name="android:colorForegroundInverse">@color/charred_orange_inverse</item>
-		<item name="android:colorBackground">@android:color/white</item>
-		<item name="android:textColorPrimary">?android:attr/colorForeground</item>
-		<item name="android:textColorSecondary">?android:attr/colorForeground</item>
-		<!-- <item name="android:windowBackground">@drawable/bg_stripes</item> -->
-		
-		<!-- lists -->
-		<item name="android:listViewStyle">@style/ListViewStyle</item>
-		<item name="android:listDivider">@drawable/divider_horizontal_bright</item>
+    <style name="LocastTheme.Default" parent="LightTheme" />
+
+    <style name="LightTheme" parent="@android:style/Theme.Light">
+        <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="Theme.NoBackground" parent="@android:style/Theme.Light">
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="Browser" parent="LightTheme">
+        <item name="android:colorForeground">@color/charred_orange</item>
+        <item name="android:colorForegroundInverse">@color/charred_orange_inverse</item>
+        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:textColorPrimary">?android:attr/colorForeground</item>
+        <item name="android:textColorSecondary">?android:attr/colorForeground</item>
+        <!-- <item name="android:windowBackground">@drawable/bg_stripes</item> -->
+
+
+        <!-- lists -->
+        <item name="android:listViewStyle">@style/ListViewStyle</item>
+        <item name="android:listDivider">@drawable/divider_horizontal_bright</item>
 
         <!-- windows -->
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
-        
+
         <!-- buttons -->
         <item name="android:buttonStyle">@style/Button</item>
         <item name="android:imageButtonStyle">@style/Button</item>
         <item name="android:buttonStyleSmall">@style/Button</item>
-	</style>
+    </style>
 
     <style name="VideoPlayer" parent="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
 
