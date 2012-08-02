@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Button.MemoryTraces">
         <item name="android:textColor">@color/mt_foreground_light</item>
     </style>
@@ -13,5 +13,10 @@
     <style name="MTThemeItem">
         <item name="android:textColor">@color/mt_foreground_light_emphasis</item>
         <item name="android:textStyle">bold|italic</item>
+    </style>
+    
+    <style name="JobTitle">
+        <item name="android:textColor">@color/mt_foreground_light</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 </resources>

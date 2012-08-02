@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".StoryDetail" >
+
+    <include layout="@layout/action_bar" />
+
+    <RelativeLayout
+        style="@style/Notice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@android:id/title"
+            style="@style/ItineraryTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignWithParentIfMissing="true" />
+
+        <TextView
+            android:id="@+id/job_title"
+            style="@style/JobTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@android:id/title"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_below="@android:id/title" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="3" >
+
+        <com.bricolsoftconsulting.mapchange.MyMapView
+            android:id="@+id/map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:apiKey=""
+            android:clickable="true"
+            android:visibility="invisible" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/shadow_top_bottom"
+            android:clickable="false" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/empty2"
+        android:layout_weight="2"
+        layout="@layout/itinerary_detail_list_empty" />
+
+    <ListView
+        android:id="@+id/casts"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="false"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarDefaultDelayBeforeFade="1000" >
+
+        <requestFocus />
+    </ListView>
+
+    <Button
+        android:id="@+id/add_cast"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_add"
+        android:text="@string/add_cast"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/media_thumbnail"
         android:layout_below="@id/media_thumbnail"
+        android:maxLines="2"
         android:paddingRight="1dip"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@color/foreground_light_emphasis"
@@ -32,9 +33,11 @@
         style="@style/CastListItem.Description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:minLines="2"
         android:layout_alignLeft="@android:id/text1"
+        android:layout_alignRight="@+id/media_thumbnail"
         android:layout_below="@android:id/text1"
+        android:maxLines="2"
+        android:minLines="2"
         android:paddingBottom="1dip"
         android:paddingRight="1dip" />
 

@@ -188,7 +188,7 @@
             android:label="@string/unicef_unsynced_casts"
             android:taskAffinity="edu.mit.mobile.android.locast.memorytraces.casts.UnsyncedCastsActivity" >
         </activity>
-        <activity android:name="edu.mit.mobile.android.locast.itineraries.ItineraryDetail" >
+        <activity android:name="edu.mit.mobile.android.locast.memorytraces.StoryDetail" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
