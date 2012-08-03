@@ -19,12 +19,10 @@ package edu.mit.mobile.android.locast.browser;
  */
 
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -53,14 +51,15 @@ import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Event;
 import edu.mit.mobile.android.locast.data.Favoritable;
 import edu.mit.mobile.android.locast.data.Itinerary;
-import edu.mit.mobile.android.locast.sync.LocastSync;
-import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.memorytraces.R;
+import edu.mit.mobile.android.locast.sync.LocastSync;
+import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
+import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 
 public class BrowserHome extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>,
-		OnItemClickListener, OnClickListener {
+		OnItemClickListener, OnClickListener, LocastSyncObserver {
 
 	private ImageCache mImageCache;
 
@@ -78,29 +77,6 @@ public class BrowserHome extends FragmentActivity implements LoaderManager.Loade
 	private static final int LOADER_FEATURED_CASTS = 0;
 
 	private static final int DIALOG_LOGOUT = 100;
-
-	private final Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case LocastSyncStatusObserver.MSG_SET_REFRESHING:
-					if (Constants.DEBUG) {
-						Log.d(TAG, "refreshing...");
-					}
-					mProgressBar.showProgressBar(true);
-					mRefresh.setRefreshing(true);
-					break;
-
-				case LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING:
-					if (Constants.DEBUG) {
-						Log.d(TAG, "done loading.");
-					}
-					mProgressBar.showProgressBar(false);
-					mRefresh.setRefreshing(false);
-					break;
-			}
-		};
-	};
 
 	private RefreshButton mRefresh;
 
@@ -153,17 +129,14 @@ public class BrowserHome extends FragmentActivity implements LoaderManager.Loade
 	protected void onPause() {
 		super.onPause();
 
-		if (mSyncHandle != null) {
-			ContentResolver.removeStatusChangeListener(mSyncHandle);
-		}
+		LocastSyncStatusObserver.unregisterSyncListener(this, mSyncHandle);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSyncHandle = ContentResolver.addStatusChangeListener(0xff, new LocastSyncStatusObserver(
-				this, mHandler));
-		LocastSyncStatusObserver.notifySyncStatusToHandler(this, mHandler);
+
+		LocastSyncStatusObserver.registerSyncListener(this, null, this);
 
 		if (shouldRefresh) {
 			refresh(false);
@@ -307,6 +280,25 @@ public class BrowserHome extends FragmentActivity implements LoaderManager.Loade
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onLocastSyncStarted(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "refreshing...");
+		}
+		mProgressBar.showProgressBar(true);
+		mRefresh.setRefreshing(true);
+	}
+
+	@Override
+	public void onLocastSyncStopped(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "done loading.");
+		}
+		mProgressBar.showProgressBar(false);
+		mRefresh.setRefreshing(false);
+
 	}
 
 	private final LogoutHandler mLogoutHandler = new LogoutHandler(this) {

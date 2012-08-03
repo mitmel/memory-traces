@@ -18,7 +18,6 @@ package edu.mit.mobile.android.locast.itineraries;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -53,14 +52,16 @@ import edu.mit.mobile.android.locast.Constants;
 import edu.mit.mobile.android.locast.accounts.SigninOrSkip;
 import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.data.MediaProvider;
-import edu.mit.mobile.android.locast.sync.LocastSync;
-import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.memorytraces.R;
+import edu.mit.mobile.android.locast.sync.LocastSync;
+import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
+import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 
 public class ItineraryList extends FragmentActivity implements
-		LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener {
+		LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener,
+		LocastSyncObserver {
 
 	private static final String TAG = ItineraryList.class.getSimpleName();
 	private CursorAdapter mAdapter;
@@ -168,17 +169,14 @@ public class ItineraryList extends FragmentActivity implements
 		super.onResume();
 
 		mSyncWhenLoaded = true;
-		mSyncHandle = ContentResolver.addStatusChangeListener(0xff, new LocastSyncStatusObserver(
-				this, mHandler));
-		LocastSyncStatusObserver.notifySyncStatusToHandler(this, mHandler);
+		mSyncHandle = LocastSyncStatusObserver.registerSyncListener(this, mUri, this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (mSyncHandle != null) {
-			ContentResolver.removeStatusChangeListener(mSyncHandle);
-		}
+
+		LocastSyncStatusObserver.unregisterSyncListener(this, mSyncHandle);
 	}
 
 	@Override
@@ -318,5 +316,24 @@ public class ItineraryList extends FragmentActivity implements
 			default:
 				break;
 		}
+	}
+
+	@Override
+	public void onLocastSyncStarted(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "refreshing...");
+		}
+		mProgressBar.showProgressBar(true);
+		mRefresh.setRefreshing(true);
+	}
+
+	@Override
+	public void onLocastSyncStopped(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "done loading.");
+		}
+		mProgressBar.showProgressBar(false);
+		mRefresh.setRefreshing(false);
+
 	}
 }

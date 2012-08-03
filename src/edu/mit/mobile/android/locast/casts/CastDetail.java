@@ -27,8 +27,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -54,16 +52,17 @@ import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.CastMedia;
 import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay;
 import edu.mit.mobile.android.locast.maps.CastsOverlay;
-import edu.mit.mobile.android.locast.sync.LocastSync;
-import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.memorytraces.R;
+import edu.mit.mobile.android.locast.sync.LocastSync;
+import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
+import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.locast.widget.FavoriteClickHandler;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 import edu.mit.mobile.android.widget.ValidatingCheckBox;
 
 public class CastDetail extends LocatableDetail implements LoaderManager.LoaderCallbacks<Cursor>,
-		OnItemClickListener, OnClickListener {
+		OnItemClickListener, OnClickListener, LocastSyncObserver {
 	private static final String TAG = CastDetail.class.getSimpleName();
 
 	/**
@@ -93,29 +92,6 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 	private NotificationProgressBar mProgressBar;
 
 	private boolean mFirstLoad = true;
-
-	private final Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case LocastSyncStatusObserver.MSG_SET_REFRESHING:
-					if (Constants.DEBUG) {
-						Log.d(TAG, "refreshing...");
-					}
-					mProgressBar.showProgressBar(true);
-					mRefresh.setRefreshing(true);
-					break;
-
-				case LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING:
-					if (Constants.DEBUG) {
-						Log.d(TAG, "done loading.");
-					}
-					mProgressBar.showProgressBar(false);
-					mRefresh.setRefreshing(false);
-					break;
-			}
-		};
-	};
 
 	private RefreshButton mRefresh;
 
@@ -173,17 +149,13 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (mSyncHandle != null) {
-			ContentResolver.removeStatusChangeListener(mSyncHandle);
-		}
+		LocastSyncStatusObserver.unregisterSyncListener(this, mSyncHandle);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSyncHandle = ContentResolver.addStatusChangeListener(0xff, new LocastSyncStatusObserver(
-				this, mHandler));
-		LocastSyncStatusObserver.notifySyncStatusToHandler(this, mHandler);
+		mSyncHandle = LocastSyncStatusObserver.registerSyncListener(this, mCastMediaUri, this);
 	}
 
 	@Override
@@ -388,8 +360,26 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onLocastSyncStarted(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "refreshing...");
+		}
+		mProgressBar.showProgressBar(true);
+		mRefresh.setRefreshing(true);
+	}
+
+	@Override
+	public void onLocastSyncStopped(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "done loading.");
+		}
+		mProgressBar.showProgressBar(false);
+		mRefresh.setRefreshing(false);
+
 	}
 
 }

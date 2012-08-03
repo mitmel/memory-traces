@@ -26,8 +26,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4_map.app.LoaderManager;
@@ -61,13 +59,15 @@ import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.maps.CastsIconOverlay;
 import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.sync.LocastSync;
+import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.maps.PathOverlay;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 
 public class ItineraryDetail extends MapFragmentActivity implements
-		LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener {
+		LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener,
+		LocastSyncObserver {
 	private static final String TAG = ItineraryDetail.class.getSimpleName();
 
 	/**
@@ -105,29 +105,6 @@ public class ItineraryDetail extends MapFragmentActivity implements
 	private Object mSyncHandle;
 
 	private NotificationProgressBar mProgressBar;
-
-	private final Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case LocastSyncStatusObserver.MSG_SET_REFRESHING:
-					if (Constants.DEBUG) {
-						Log.d(TAG, "refreshing...");
-					}
-					mProgressBar.showProgressBar(true);
-					mRefresh.setRefreshing(true);
-					break;
-
-				case LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING:
-					if (Constants.DEBUG) {
-						Log.d(TAG, "done loading.");
-					}
-					mProgressBar.showProgressBar(false);
-					mRefresh.setRefreshing(false);
-					break;
-			}
-		};
-	};
 
 	@Override
 	protected void onCreate(Bundle icicle) {
@@ -210,17 +187,13 @@ public class ItineraryDetail extends MapFragmentActivity implements
 	protected void onResume() {
 		mFirstLoadSync = true;
 		super.onResume();
-		mSyncHandle = ContentResolver.addStatusChangeListener(0xff, new LocastSyncStatusObserver(
-				this, mHandler));
-		LocastSyncStatusObserver.notifySyncStatusToHandler(this, mHandler);
+		mSyncHandle = LocastSyncStatusObserver.registerSyncListener(this, mCastsUri, this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (mSyncHandle != null) {
-			ContentResolver.removeStatusChangeListener(mSyncHandle);
-		}
+		LocastSyncStatusObserver.unregisterSyncListener(this, mSyncHandle);
 	}
 
 	@Override
@@ -505,5 +478,24 @@ public class ItineraryDetail extends MapFragmentActivity implements
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	@Override
+	public void onLocastSyncStarted(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "refreshing...");
+		}
+		mProgressBar.showProgressBar(true);
+		mRefresh.setRefreshing(true);
+	}
+
+	@Override
+	public void onLocastSyncStopped(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "done loading.");
+		}
+		mProgressBar.showProgressBar(false);
+		mRefresh.setRefreshing(false);
+
 	}
 }

@@ -20,7 +20,6 @@ package edu.mit.mobile.android.locast.casts;
 import java.util.List;
 import java.util.Set;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -67,11 +66,14 @@ import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay;
 import edu.mit.mobile.android.locast.maps.CastsOverlay;
 import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.sync.LocastSync;
+import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 
-public class LocatableListWithMap extends MapFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>, OnClickListener, OnItemClickListener {
+public class LocatableListWithMap extends MapFragmentActivity implements
+		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener, OnItemClickListener,
+		LocastSyncObserver {
 
 	private static final String TAG = LocatableListWithMap.class.getSimpleName();
 	private CursorAdapter mAdapter;
@@ -115,21 +117,6 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what){
-			case LocastSyncStatusObserver.MSG_SET_REFRESHING:
-				if (Constants.DEBUG){
-					Log.d(TAG, "refreshing...");
-				}
-				mProgressBar.showProgressBar(true);
-				mRefresh.setRefreshing(true);
-				break;
-
-			case LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING:
-				if (Constants.DEBUG){
-					Log.d(TAG, "done loading.");
-				}
-				mProgressBar.showProgressBar(false);
-				mRefresh.setRefreshing(false);
-				break;
 
 				case MSG_SET_GEOPOINT:
 					setDataUriNear((GeoPoint) msg.obj, msg.arg1);
@@ -238,8 +225,7 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 			mMyLocationOverlay.enableMyLocation();
 		}
 		mExpeditedSync = true;
-		mSyncHandle = ContentResolver.addStatusChangeListener(0xff, new LocastSyncStatusObserver(this, mHandler));
-		LocastSyncStatusObserver.notifySyncStatusToHandler(this, mHandler);
+		mSyncHandle = LocastSyncStatusObserver.registerSyncListener(this, mBaseContent, this);
 	}
 
 	@Override
@@ -248,9 +234,7 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 		if (actionSearchNearby) {
 			mMyLocationOverlay.disableMyLocation();
 		}
-		if (mSyncHandle != null){
-			ContentResolver.removeStatusChangeListener(mSyncHandle);
-		}
+		LocastSyncStatusObserver.unregisterSyncListener(this, mSyncHandle);
 	}
 
 	/**
@@ -469,6 +453,25 @@ public class LocatableListWithMap extends MapFragmentActivity implements LoaderM
 	public void onLoaderReset(Loader<Cursor> loader) {
 		mAdapter.swapCursor(null);
 		mLocatableItemsOverlay.swapCursor(null);
+
+	}
+
+	@Override
+	public void onLocastSyncStarted(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "refreshing...");
+		}
+		mProgressBar.showProgressBar(true);
+		mRefresh.setRefreshing(true);
+	}
+
+	@Override
+	public void onLocastSyncStopped(Uri uri) {
+		if (Constants.DEBUG) {
+			Log.d(TAG, "done loading.");
+		}
+		mProgressBar.showProgressBar(false);
+		mRefresh.setRefreshing(false);
 
 	}
 }

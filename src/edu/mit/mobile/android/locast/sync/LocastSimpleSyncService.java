@@ -14,20 +14,20 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.util.Log;
 import edu.mit.mobile.android.locast.Constants;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.data.NoPublicPath;
 import edu.mit.mobile.android.locast.data.SyncException;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.net.NetworkClient;
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
 import edu.mit.mobile.android.locast.net.NotificationProgressListener;
 import edu.mit.mobile.android.locast.notifications.ProgressNotification;
-import edu.mit.mobile.android.locast.memorytraces.R;
 
 /**
  * <p>
@@ -56,6 +56,8 @@ public class LocastSimpleSyncService extends Service {
 	private Thread mSyncThread;
 
 	private final PriorityBlockingQueue<SyncItem> mPriorityQueue = new PriorityBlockingQueue<LocastSimpleSyncService.SyncItem>();
+
+	final RemoteCallbackList<ILocastSyncObserver> mObservers = new RemoteCallbackList<ILocastSyncObserver>();
 
 	public static void startSync(Context context, Uri uri, Bundle extras) {
 		final Intent intent = new Intent(Intent.ACTION_SYNC, uri);
@@ -105,17 +107,64 @@ public class LocastSimpleSyncService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		mSyncProcessor.stop();
+		mObservers.kill();
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		return new LocalBinder();
+		return mBinder;
 	}
 
-	public class LocalBinder extends Binder {
-		public LocastSimpleSyncService getBinder() {
-			return LocastSimpleSyncService.this;
+	private Uri mLastUri;
+
+	private int mLastState;
+
+	private final ILocastSimpleSyncService.Stub mBinder = new ILocastSimpleSyncService.Stub() {
+
+		@Override
+		public void registerSyncObserver(ILocastSyncObserver observer) throws RemoteException {
+			mObservers.register(observer);
+			switch (mLastState) {
+				case LocastSyncStatusObserver.MSG_SET_REFRESHING:
+					observer.syncStarted(mLastUri);
+					break;
+
+				case LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING:
+					observer.syncFinished(mLastUri);
+					break;
+			}
 		}
+
+		@Override
+		public void unregisterSyncObserver(ILocastSyncObserver observer) throws RemoteException {
+			mObservers.unregister(observer);
+		}
+	};
+
+	private synchronized void notifyObservers(int state, Uri uri) {
+		final int count = mObservers.beginBroadcast();
+		for (int i = 0; i < count; i++) {
+			try {
+				switch (state) {
+					case LocastSyncStatusObserver.MSG_SET_REFRESHING:
+						mObservers.getBroadcastItem(i).syncStarted(uri);
+						break;
+
+					case LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING:
+
+						mObservers.getBroadcastItem(i).syncFinished(uri);
+						break;
+				}
+
+			} catch (final RemoteException e) {
+				e.printStackTrace();
+			}
+
+		}
+		mObservers.finishBroadcast();
+
+		mLastState = state;
+		mLastUri = uri;
 	}
 
 	private NotificationProgressListener showNotification() {
@@ -158,10 +207,12 @@ public class LocastSimpleSyncService extends Service {
 					showNotification();
 					final SyncResult sr = new SyncResult();
 					final SyncItem item = mPriorityQueue.take();
+					notifyObservers(LocastSyncStatusObserver.MSG_SET_REFRESHING, item.uri);
 					Log.d(TAG, "took " + item + " from sync queue. Syncing...");
 					mSyncEngine.sync(item.uri, null, item.extras, getContentResolver()
 							.acquireContentProviderClient(MediaProvider.AUTHORITY), sr);
 					Log.d(TAG, "finished syncing " + item);
+					notifyObservers(LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING, item.uri);
 					Log.d(TAG, mPriorityQueue.size() + " item(s) in queue");
 
 				} catch (final RemoteException e) {
