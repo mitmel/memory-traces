@@ -1,78 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:minHeight="?android:attr/listPreferredItemHeight"
->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight" >
 
     <TextView
         android:id="@+id/ref_time"
         android:layout_width="64sp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium" 
         android:layout_alignParentLeft="true"
-        android:minHeight="?android:attr/listPreferredItemHeight"
         android:background="@drawable/bg_ref_time"
         android:gravity="center"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/foreground_light_emphasis"
-        android:textStyle="bold|italic"
-        />
+        android:textStyle="bold|italic" />
 
-	<ImageView
-	    android:id="@+id/media_thumbnail"
-	    style="@style/Thumbnail"
-	    android:layout_width="48dip"
-	    android:layout_height="48dip"
-	    android:layout_toRightOf="@id/ref_time"
-	    android:layout_centerVertical="true"
-	    android:layout_margin="10dip"
-	    android:background="@drawable/picture_frame" />
+    <ImageView
+        android:id="@+id/media_thumbnail"
+        style="@style/Thumbnail"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dip"
+        android:layout_toRightOf="@id/ref_time"
+        android:background="@drawable/picture_frame"
+        android:contentDescription="@null" />
 
-	<TwoLineListItem
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignTop="@id/media_thumbnail"
-	    android:layout_toRightOf="@id/media_thumbnail" >
-
-		<TextView
-			android:id="@android:id/text1"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_toRightOf="@id/media_thumbnail"
-
-			android:paddingLeft="6dip"
-			android:paddingTop="6dip"
-			android:paddingBottom="1dip"
-			android:paddingRight="1dip"
-
-			style="@style/CastListItem.Title" />
-		<TextView
-			android:id="@android:id/text2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignLeft="@android:id/text1"
-			android:layout_below="@android:id/text1"
-			android:paddingLeft="6dip"
-			android:paddingBottom="1dip"
-			android:paddingRight="1dip"
-			style="@style/CastListItem.Author"
-
-			android:singleLine="true" />
-	</TwoLineListItem>
-	<TextView
-		android:id="@+id/draft"
-		android:text="draft"
-		android:background="@color/background_dark"
-		android:textColor="@android:color/white"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignBaseline="@android:id/text1"
-		android:visibility="invisible"
-		android:layout_margin="7dip"
-		android:padding="7dip"
-		 />
+    <TextView
+        android:id="@android:id/text1"
+        style="@style/CastListItem.Title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/media_thumbnail"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:paddingRight="6dip"
+         />
 
 </RelativeLayout>
