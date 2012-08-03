@@ -21,6 +21,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.stackoverflow.ArrayUtils;
 
@@ -87,6 +88,11 @@ public class CastMediaAdapter extends SimpleThumbnailCursorAdapter {
 			final boolean visible = mimeType != null && (mimeType.startsWith("video/") || "text/html".equals(mimeType));
 
 			overlay.setVisibility(visible ? View.VISIBLE : View.GONE);
+		}
+
+		final TextView title = (TextView) v.findViewById(R.id.title);
+		if (title != null && (title.getText() == null || title.getText().length() == 0)) {
+			title.setVisibility(View.GONE);
 		}
 		return v;
 	}
