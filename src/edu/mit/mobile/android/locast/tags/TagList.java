@@ -17,12 +17,17 @@ import android.widget.TextView;
 
 import com.stackoverflow.ArrayUtils;
 
+import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.Tag;
 import edu.mit.mobile.android.locast.data.TaggableItem;
 import edu.mit.mobile.android.locast.memorytraces.R;
+import edu.mit.mobile.android.locast.sync.LocastSync;
+import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
+import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
+import edu.mit.mobile.android.widget.NotificationProgressBar;
 
 public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>,
-		OnItemClickListener {
+		OnItemClickListener, LocastSyncObserver {
 
 	private static final String[] FROM = new String[] { Tag._NAME };
 
@@ -32,6 +37,12 @@ public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>
 
 	private Uri mUri;
 
+	private NotificationProgressBar mProgressNotification;
+
+	private GridView mList;
+
+	private Object mSyncHandle;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -40,13 +51,14 @@ public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>
 
 		setTitle(getTitle());
 
-		final GridView list = (GridView) findViewById(android.R.id.list);
+		mList = (GridView) findViewById(android.R.id.list);
+		mProgressNotification = (NotificationProgressBar) findViewById(R.id.progressNotification);
 
 		mAdapter = new SimpleCursorAdapter(this, getTagItemLayout(), null, getTagDisplay(),
 				getTagLayoutIds(), 0);
 
-		list.setAdapter(mAdapter);
-		list.setOnItemClickListener(this);
+		mList.setAdapter(mAdapter);
+		mList.setOnItemClickListener(this);
 
 		mUri = getIntent().getData();
 
@@ -55,6 +67,20 @@ public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>
 		}
 
 		getSupportLoaderManager().initLoader(0, null, this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		LocastSyncStatusObserver.unregisterSyncListener(this, mSyncHandle);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// it's not currently possible to sync tag URIs.
+		mSyncHandle = LocastSyncStatusObserver.registerSyncListener(this, Cast.CONTENT_URI, this);
+		LocastSync.startSync(this, Cast.CONTENT_URI);
 	}
 
 	@Override
@@ -116,6 +142,22 @@ public class TagList extends FragmentActivity implements LoaderCallbacks<Cursor>
 		final String tag = c.getString(c.getColumnIndex(Tag._NAME));
 
 		startActivity(new Intent(Intent.ACTION_VIEW, TaggableItem.getTagUri(mUri, tag)));
+
+	}
+
+	@Override
+	public void onLocastSyncStarted(Uri uri) {
+
+		mProgressNotification.showProgressBar(true);
+
+		mProgressNotification.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void onLocastSyncStopped(Uri uri) {
+		mProgressNotification.showProgressBar(false);
+
+		mProgressNotification.setVisibility(View.GONE);
 
 	}
 }

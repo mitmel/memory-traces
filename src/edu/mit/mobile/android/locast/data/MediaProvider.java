@@ -48,6 +48,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.beoui.geocell.GeocellUtils;
@@ -952,6 +953,8 @@ public class MediaProvider extends ContentProvider {
 			}
 			tagC.close();
 
+				boolean dirty = false;
+
 			final Set<String> newTags = new HashSet<String>(TaggableItem.getList(values.getAsString(Tag.PATH)));
 
 			// If the CV_TAG_PREFIX key is present, only work with tags that have that prefix.
@@ -971,15 +974,29 @@ public class MediaProvider extends ContentProvider {
 				toDeleteWhere.set(i, Tag._NAME + "=\'" + toDeleteWhere.get(i) + "'");
 			}
 			if (toDeleteWhere.size() > 0){
-				final String delWhere = ListUtils.join(toDeleteWhere, " OR ");
+					final String delWhere = TextUtils.join(" OR ", toDeleteWhere);
 				delete(uri, delWhere, null);
+					dirty = true;
 			}
 
 			// duplicates will be ignored.
-			final ContentValues cvAdd = new ContentValues();
-			cvAdd.put(Tag.PATH, TaggableItem.toListString(newTags));
-			insert(uri, cvAdd);
+				if (newTags.size() > 0) {
+					final ContentValues cvAdd = new ContentValues();
+					cvAdd.put(Tag.PATH, TaggableItem.toListString(newTags));
+					insert(uri, cvAdd);
+					dirty = true;
+				}
 			count = 0;
+
+				if (dirty) {
+					// if anything is watching the aggregate uri, they will be notified.
+					mContentResolver.notifyChange(Tag.CONTENT_URI, null);
+					// including the aggregate of the parent
+					mContentResolver.notifyChange(
+TaggableItem.getTagListUri(ProviderUtils
+							.removeLastPathSegments(uri, 2)),
+							null);
+				}
 			break;
 
 		}
