@@ -48,10 +48,13 @@ import android.widget.Toast;
 
 import com.bricolsoftconsulting.mapchange.MyMapView;
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import edu.mit.mobile.android.imagecache.ImageCache;
 import edu.mit.mobile.android.imagecache.ImageLoaderAdapter;
@@ -329,6 +332,16 @@ public class LocatableListWithMap extends MapFragmentActivity implements
 
 	private void initMapOverlays(LocatableItemOverlay overlay){
 		mLocatableItemsOverlay = overlay;
+		mLocatableItemsOverlay.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChanged(@SuppressWarnings("rawtypes") ItemizedOverlay arg0,
+					OverlayItem arg1) {
+				final int index = arg0.getLastFocusedIndex();
+				mListView.setSelection(index);
+
+			}
+		});
 		final List<Overlay> overlays = mMapView.getOverlays();
 		mMyLocationOverlay = new MyMyLocationOverlay(this, mMapView);
 
