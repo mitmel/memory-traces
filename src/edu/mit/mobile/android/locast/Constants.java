@@ -50,7 +50,7 @@ public class Constants {
 	/**
 	 * Enables a built-in app update checker if the app is not going to be published on the Market.
 	 */
-	public static final boolean USE_APPUPDATE_CHECKER = true;
+	public static final boolean USE_APPUPDATE_CHECKER = false;
 
 	/**
 	 * For various cursor views, this says how frequently it should refresh the UI.
