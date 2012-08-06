@@ -95,12 +95,16 @@ public class LocastSimpleSyncService extends Service {
 		final SyncItem i = new SyncItem(uri, extras, (expedited ? 10 : 0) + (manual ? 5 : 0));
 
 		if (!expedited && mPriorityQueue.contains(i)) {
-			Log.d(TAG, "not adding " + i + " as it's already in the sync queue");
+			if (DEBUG) {
+				Log.d(TAG, "not adding " + i + " as it's already in the sync queue");
+			}
 			return;
 		}
 
 		mPriorityQueue.add(i);
-		Log.d(TAG, "enqueued " + i);
+		if (DEBUG) {
+			Log.d(TAG, "enqueued " + i);
+		}
 	}
 
 	@Override
@@ -208,12 +212,18 @@ public class LocastSimpleSyncService extends Service {
 					final SyncResult sr = new SyncResult();
 					final SyncItem item = mPriorityQueue.take();
 					notifyObservers(LocastSyncStatusObserver.MSG_SET_REFRESHING, item.uri);
-					Log.d(TAG, "took " + item + " from sync queue. Syncing...");
+					if (DEBUG) {
+						Log.d(TAG, "took " + item + " from sync queue. Syncing...");
+					}
 					mSyncEngine.sync(item.uri, null, item.extras, getContentResolver()
 							.acquireContentProviderClient(MediaProvider.AUTHORITY), sr);
-					Log.d(TAG, "finished syncing " + item);
+					if (DEBUG) {
+						Log.d(TAG, "finished syncing " + item);
+					}
 					notifyObservers(LocastSyncStatusObserver.MSG_SET_NOT_REFRESHING, item.uri);
-					Log.d(TAG, mPriorityQueue.size() + " item(s) in queue");
+					if (DEBUG) {
+						Log.d(TAG, mPriorityQueue.size() + " item(s) in queue");
+					}
 
 				} catch (final RemoteException e) {
 					Log.e(TAG, "sync error", e);
