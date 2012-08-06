@@ -63,7 +63,6 @@ import edu.mit.mobile.android.locast.Constants;
 import edu.mit.mobile.android.locast.accounts.AuthenticationService;
 import edu.mit.mobile.android.locast.accounts.Authenticator;
 import edu.mit.mobile.android.locast.sync.LocastSync;
-import edu.mit.mobile.android.utils.ListUtils;
 
 public class MediaProvider extends ContentProvider {
 	private final static String TAG = MediaProvider.class.getSimpleName();
@@ -509,7 +508,6 @@ public class MediaProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
-		final Context context = getContext();
 		long rowid;
 		final boolean syncable = canSync(uri);
 		if (syncable && !values.containsKey(JsonSyncableItem._MODIFIED_DATE)){
@@ -803,7 +801,7 @@ public class MediaProvider extends ContentProvider {
 		for (final String tag : tags){
 			tagFilterList.add(DatabaseUtils.sqlEscapeString(tag));
 		}
-		qb.appendWhere(" AND (t."+Tag._NAME+" IN ("+ListUtils.join(tagFilterList, ",")+"))");
+		qb.appendWhere(" AND (t." + Tag._NAME + " IN (" + TextUtils.join(",", tagFilterList) + "))");
 
 		// limit to only items of the given object class
 		qb.appendWhere(" AND t."+Tag._REF_CLASS + "=\'"+taggableItemTable+"\'");
@@ -1281,7 +1279,8 @@ TaggableItem.getTagListUri(ProviderUtils
 		case MATCHER_ITINERARY_BY_TAGS:{
 			final Set<String> tags = TaggableItem.removePrefixesFromTags(Tag.toSet(uri.getQuery()));
 
-			path = getPublicPath(context, ProviderUtils.removeLastPathSegment(uri)) + "?tags=" + ListUtils.join(tags, ",");
+				path = getPublicPath(context, ProviderUtils.removeLastPathSegment(uri)) + "?tags="
+						+ TextUtils.join(",", tags);
 		}break;
 
 		default:
@@ -1311,7 +1310,7 @@ TaggableItem.getTagListUri(ProviderUtils
 			for (final String tag : tagSet) {
 				urlEncodedTags.add(URLEncoder.encode(tag));
 			}
-			query = TaggableItem.SERVER_QUERY_PARAMETER + "=" + ListUtils.join(urlEncodedTags, ",");
+			query = TaggableItem.SERVER_QUERY_PARAMETER + "=" + TextUtils.join(",", urlEncodedTags);
 		}
 
 		if (dist != null){
