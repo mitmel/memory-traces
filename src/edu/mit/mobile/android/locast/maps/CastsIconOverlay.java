@@ -2,6 +2,7 @@ package edu.mit.mobile.android.locast.maps;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
@@ -59,6 +60,13 @@ public class CastsIconOverlay extends LocatableItemIconOverlay {
 		}
 
 		return item;
+	}
+
+	@Override
+	public void draw(Canvas canvas, MapView mapView, boolean drawShadow) {
+		if (!drawShadow) {
+			super.draw(canvas, mapView, drawShadow);
+		}
 	}
 
 	@Override

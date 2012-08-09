@@ -20,6 +20,7 @@ package edu.mit.mobile.android.locast.maps;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.MapView;
@@ -68,6 +69,13 @@ public class CastsOverlay extends LocatableItemOverlay {
 		mContext.startActivity(new Intent(Intent.ACTION_VIEW, cast.getCanonicalUri()));
 
 		return true;
+	}
+
+	@Override
+	public void draw(Canvas canvas, MapView mapView, boolean drawShadow) {
+		if (!drawShadow) {
+			super.draw(canvas, mapView, drawShadow);
+		}
 	}
 
 	@Override
