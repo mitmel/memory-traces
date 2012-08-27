@@ -85,8 +85,6 @@ public class ItineraryList extends FragmentActivity implements
 			Itinerary._THUMBNAIL, Itinerary._DESCRIPTION } : new String[] { Itinerary._TITLE,
 			Itinerary._THUMBNAIL, Itinerary._CASTS_COUNT, Itinerary._FAVORITES_COUNT };
 
-	private String[] ITINERARY_PROJECTION;
-
 	private final int[] ITINERARY_LAYOUT_IDS = SHOW_DESCRIPTION ? new int[] { android.R.id.text1,
 			R.id.media_thumbnail, android.R.id.text2 } : new int[] { android.R.id.text1,
 			R.id.media_thumbnail, R.id.casts, R.id.favorites };

@@ -17,6 +17,7 @@ package edu.mit.mobile.android.locast.data;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -827,6 +828,7 @@ public class MediaProvider extends ContentProvider {
 		}
 		final String lon = m.group(1);
 		final String lat = m.group(2);
+		// TODO fix distance search
 		String dist = "1500";
 		if (m.groupCount() == 3) {
 			dist = m.group(3);
@@ -842,7 +844,8 @@ public class MediaProvider extends ContentProvider {
 		final StringBuilder selSb = new StringBuilder();
 
 		boolean join = false;
-		for (final String adj : adjacent) {
+		final int count = adjacent.size();
+		for (int i = 0; i < count; i++) {
 			if (join) {
 				selSb.append(" OR ");
 			} else {
@@ -1306,9 +1309,12 @@ TaggableItem.getTagListUri(ProviderUtils
 		if (tags != null){
 			final Set<String> tagSet = TaggableItem.removePrefixesFromTags(Tag.toSet(tags));
 			final Set<String> urlEncodedTags = new HashSet<String>();
-
-			for (final String tag : tagSet) {
-				urlEncodedTags.add(URLEncoder.encode(tag));
+			try {
+				for (final String tag : tagSet) {
+					urlEncodedTags.add(URLEncoder.encode(tag, "UTF-8"));
+				}
+			} catch (final UnsupportedEncodingException e) {
+				Log.e(TAG, "query string generation error", e);
 			}
 			query = TaggableItem.SERVER_QUERY_PARAMETER + "=" + TextUtils.join(",", urlEncodedTags);
 		}
