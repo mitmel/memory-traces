@@ -73,7 +73,7 @@ public class ItineraryList extends FragmentActivity implements
 	/**
 	 * If true, checks to ensure that there's an account before showing activity.
 	 */
-	private static final boolean CHECK_FOR_ACCOUNT = true;
+	private static final boolean CHECK_FOR_ACCOUNT = true && Constants.USE_ACCOUNT_FRAMEWORK;
 
 	/**
 	 * If true, uses an alternate layout itinerary_item_with_description and loads the itinerary
