@@ -31,11 +31,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.google.android.maps.GeoPoint;
 
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
-import edu.mit.mobile.android.utils.ListUtils;
 
 public class Itinerary extends TaggableItem implements Favoritable.Columns {
 	public final static String PATH = "itineraries";
@@ -173,7 +173,7 @@ public class Itinerary extends TaggableItem implements Favoritable.Columns {
 					}
 					final ContentValues cv = new ContentValues();
 
-					cv.put(lProp, ListUtils.join(Arrays.asList(path), ","));
+					cv.put(lProp, TextUtils.join(",", Arrays.asList(path)));
 
 					return cv;
 
