@@ -61,7 +61,7 @@
         -->
         <activity
             android:name="edu.mit.mobile.android.locast.memorytraces.CastDetail"
-            android:process="edu.mit.mobile.android.locast.Detail" >
+            android:process="edu.mit.mobile.android.locast.memorytraces.Detail" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.DELETE" />
@@ -227,14 +227,12 @@
         <!-- this has its own process so it can have more memory for thumbnail generation -->
         <service
             android:name="edu.mit.mobile.android.locast.sync.MediaSync"
-            android:process="edu.mit.mobile.android.locast.SyncMedia" >
+            android:process="edu.mit.mobile.android.locast.memorytraces.SyncMedia" >
             <intent-filter>
                 <action android:name="edu.mit.mobile.android.locast.ACTION_SYNC_RESOURCES" />
 
+                <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.memorytraces.castmedia" />
                 <data android:mimeType="vnd.android.cursor.item/vnd.edu.mit.mobile.android.locast.memorytraces.castmedia" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="edu.mit.mobile.android.locast.ACTION_SYNC_RESOURCES" />
             </intent-filter>
         </service>
 
@@ -247,7 +245,7 @@
         <service
             android:name="edu.mit.mobile.android.locast.sync.LocastSimpleSyncService"
             android:exported="false"
-            android:process="edu.mit.mobile.android.locast.Sync" >
+            android:process="edu.mit.mobile.android.locast.memorytraces.Sync" >
             <intent-filter>
                 <action android:name="edu.mit.mobile.android.locast.ACTION_CANCEL_SYNC" />
 

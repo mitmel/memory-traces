@@ -1359,11 +1359,12 @@ TaggableItem.getTagListUri(ProviderUtils
 		uriMatcher
 				.addURI(AUTHORITY, Cast.PATH + "/#/" + Itinerary.PATH, MATCHER_CAST_ITINERARY_DIR);
 
+        uriMatcher.addURI(AUTHORITY, CastMedia.CASTS_CASTMEDIA_PATH, MATCHER_CASTMEDIA_DIR);
+
 		// /cast/1/media
 		uriMatcher.addURI(AUTHORITY, Cast.PATH+"/#/"+CastMedia.PATH, MATCHER_CHILD_CASTMEDIA_DIR);
 		uriMatcher.addURI(AUTHORITY, Cast.PATH+"/#/"+CastMedia.PATH+"/#", MATCHER_CHILD_CASTMEDIA_ITEM);
 
-		uriMatcher.addURI(AUTHORITY, CastMedia.CASTS_CASTMEDIA_PATH, MATCHER_CASTMEDIA_DIR);
 
 		uriMatcher.addURI(AUTHORITY, Itinerary.PATH + "/#/" + Cast.PATH + "/#/" + CastMedia.PATH, MATCHER_CHILD_CASTMEDIA_DIR);
 		uriMatcher.addURI(AUTHORITY, Itinerary.PATH + "/#/" + Cast.PATH + "/#/" + CastMedia.PATH + "/#/", MATCHER_CHILD_CASTMEDIA_ITEM);

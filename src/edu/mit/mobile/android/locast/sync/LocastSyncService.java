@@ -221,7 +221,8 @@ public class LocastSyncService extends Service {
 			}
 
 			try {
-				mContext.startService(new Intent(MediaSync.ACTION_SYNC_RESOURCES));
+                mContext.startService(new Intent(MediaSync.ACTION_SYNC_RESOURCES)
+                        .setType("vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.memorytraces.castmedia"));
 
 				if (uploadOnly) {
 					// default to only uploading casts

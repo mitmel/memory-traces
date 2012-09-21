@@ -68,11 +68,11 @@ import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.CastMedia;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.data.SyncException;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.net.NetworkClient;
 import edu.mit.mobile.android.locast.net.NetworkClient.InputStreamWatcher;
 import edu.mit.mobile.android.locast.net.NotificationProgressListener;
 import edu.mit.mobile.android.locast.notifications.ProgressNotification;
-import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.utils.StreamUtils;
 
 public class MediaSync extends Service implements MediaScannerConnectionClient {
@@ -201,11 +201,21 @@ public class MediaSync extends Service implements MediaScannerConnectionClient {
 
 	public void enqueueUnpublishedMedia() {
 
-		final CastMedia c = new CastMedia(mCr.query(CastMedia.CONTENT_URI, CASTMEDIA_PROJECTION,
-				CastMedia._MEDIA_URL + " ISNULL AND " + CastMedia._PUBLIC_URI + " NOT NULL AND "
-						+ CastMedia._LOCAL_URI + " NOT NULL", null, null));
+        Cursor c2 = mCr.query(CastMedia.CONTENT_URI, CASTMEDIA_PROJECTION,
+                CastMedia._MEDIA_URL + " ISNULL AND " + CastMedia._PUBLIC_URI + " NOT NULL AND "
+                        + CastMedia._LOCAL_URI + " NOT NULL", null, null);
+
+        final CastMedia c = new CastMedia(c2);
+
 
 		try {
+            if (c2 == null) {
+                Log.e(TAG, "cursor was null when enqueueing unpublished media for "
+                        + CastMedia.CONTENT_URI);
+                return;
+            }
+            c2 = null;
+
 			c.moveToFirst();
 
 			if (Constants.DEBUG) {
