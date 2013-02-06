@@ -1028,7 +1028,7 @@ public class CastEdit extends MapFragmentActivity implements OnClickListener,
 	private final ImageCache.OnImageLoadListener mImageCacheLoadListener = new ImageCache.OnImageLoadListener() {
 
 		@Override
-		public void onImageLoaded(long id, Uri imageUri, Drawable image) {
+        public void onImageLoaded(int id, Uri imageUri, Drawable image) {
 			final ImageView imv = (ImageView) findViewById(R.id.media_thumbnail);
 			imv.setImageDrawable(image);
 		}

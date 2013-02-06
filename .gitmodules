@@ -1,3 +1,6 @@
 [submodule "libs-src/android-mapviewballoons"]
 	path = libs-src/android-mapviewballoons
 	url = git://github.com/jgilfelt/android-mapviewballoons.git
+[submodule "libs-src/image_cache"]
+	path = libs-src/image_cache
+	url = git@github.com:mitmel/Android-Image-Cache.git

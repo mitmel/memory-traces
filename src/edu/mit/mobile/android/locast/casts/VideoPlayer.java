@@ -350,7 +350,7 @@ public class VideoPlayer extends FragmentActivity implements LoaderCallbacks<Cur
 	}
 
 	@Override
-	public void onImageLoaded(long id, Uri imageUri, Drawable image) {
-		((ImageView) findViewById((int) id)).setImageDrawable(image);
+    public void onImageLoaded(int id, Uri imageUri, Drawable image) {
+        ((ImageView) findViewById(id)).setImageDrawable(image);
 	}
 }
