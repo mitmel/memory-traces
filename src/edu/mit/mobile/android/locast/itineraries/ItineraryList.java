@@ -43,8 +43,6 @@ import android.widget.TextView;
 
 import com.stackoverflow.ArrayUtils;
 
-import edu.mit.mobile.android.appupdater.AppUpdateChecker;
-import edu.mit.mobile.android.appupdater.OnUpdateDialog;
 import edu.mit.mobile.android.imagecache.ImageCache;
 import edu.mit.mobile.android.imagecache.ImageLoaderAdapter;
 import edu.mit.mobile.android.imagecache.SimpleThumbnailCursorAdapter;
@@ -88,8 +86,6 @@ public class ItineraryList extends FragmentActivity implements
 	private final int[] ITINERARY_LAYOUT_IDS = SHOW_DESCRIPTION ? new int[] { android.R.id.text1,
 			R.id.media_thumbnail, android.R.id.text2 } : new int[] { android.R.id.text1,
 			R.id.media_thumbnail, R.id.casts, R.id.favorites };
-
-	private AppUpdateChecker mAppUpdateChecker;
 
 	private static String LOADER_DATA = "edu.mit.mobile.android.locast.LOADER_DATA";
 
@@ -137,11 +133,6 @@ public class ItineraryList extends FragmentActivity implements
 		mListView.setEmptyView(findViewById(R.id.progressNotification));
 		mRefresh = (RefreshButton) findViewById(R.id.refresh);
 		mRefresh.setOnClickListener(this);
-		if (Constants.USE_APPUPDATE_CHECKER) {
-			mAppUpdateChecker = new AppUpdateChecker(this, getString(R.string.app_update_url),
-					new OnUpdateDialog(this, getString(R.string.app_name)));
-			mAppUpdateChecker.checkForUpdates();
-		}
 
 		final Intent intent = getIntent();
 		final String action = intent.getAction();
