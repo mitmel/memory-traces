@@ -50,6 +50,7 @@
         android:largeScreens="true" />
 
     <application
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/LocastTheme.MemoryTraces" >
@@ -227,6 +228,7 @@
         <!-- this has its own process so it can have more memory for thumbnail generation -->
         <service
             android:name="edu.mit.mobile.android.locast.sync.MediaSync"
+            android:exported="false"
             android:process="edu.mit.mobile.android.locast.memorytraces.SyncMedia" >
             <intent-filter>
                 <action android:name="edu.mit.mobile.android.locast.ACTION_SYNC_RESOURCES" />
@@ -237,6 +239,7 @@
         </service>
 
         <provider
+            android:exported="false"
             android:name="edu.mit.mobile.android.locast.data.MediaProvider"
             android:authorities="edu.mit.mobile.android.locast.memorytraces.provider" />
 
