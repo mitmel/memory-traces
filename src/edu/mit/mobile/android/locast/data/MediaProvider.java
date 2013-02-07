@@ -257,7 +257,7 @@ public class MediaProvider extends ContentProvider {
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		private static final String DB_NAME = "content.db";
-		private static final int DB_VER = 47;
+        private static final int DB_VER = 48;
 
 		public DatabaseHelper(Context context) {
 			super(context, DB_NAME, null, DB_VER);

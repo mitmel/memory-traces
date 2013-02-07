@@ -30,7 +30,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 import edu.mit.mobile.android.content.ForeignKeyDBHelper;
@@ -41,9 +45,9 @@ import edu.mit.mobile.android.content.column.DBColumn;
 import edu.mit.mobile.android.content.column.DBForeignKeyColumn;
 import edu.mit.mobile.android.content.column.IntegerColumn;
 import edu.mit.mobile.android.content.column.TextColumn;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
 import edu.mit.mobile.android.locast.sync.MediaSync;
-import edu.mit.mobile.android.locast.memorytraces.R;
 
 @UriPath(CastMedia.PATH)
 public class CastMedia extends JsonSyncableItem {
@@ -66,6 +70,12 @@ public class CastMedia extends JsonSyncableItem {
 
 	@DBColumn(type=TextColumn.class)
 	public final static String _MEDIA_URL = "url"; // the body of the object
+
+    @DBColumn(type = TextColumn.class)
+    public final static String _LOW_BITRATE_URL = "compressed"; // the more compressed body of the
+                                                               // object
+    @DBColumn(type = TextColumn.class)
+    public final static String _LOW_BITRATE_MIME_TYPE = "compressed_mime"; // type of the media
 
 	@DBColumn(type=TextColumn.class)
 	public final static String _LOCAL_URI = "local_uri"; // any local copy of the main media
@@ -106,8 +116,11 @@ public class CastMedia extends JsonSyncableItem {
 		_LANGUAGE,
 
 		_MEDIA_URL,
+
 		_LOCAL_URI,
 		_MIME_TYPE,
+
+    _LOW_BITRATE_URL, _LOW_BITRATE_MIME_TYPE,
 		_DURATION,
 		_THUMBNAIL,
 		_THUMB_LOCAL,
@@ -147,19 +160,92 @@ public class CastMedia extends JsonSyncableItem {
 		return ProviderUtils.removeLastPathSegments(castMediaUri, 2);
 	}
 
-	public static Uri getMedia(Cursor c, int mediaCol, int mediaLocalCol){
+    /**
+     * Returns the uri for the media. It will return, in order, the local uri if it's present, the
+     * low-res uri (if {@link #shouldShowLowQuality(Context)} says so), or the full-res URI.
+     *
+     * @param context
+     * @param c
+     * @return null or a url pointing to the media
+     */
+	public static Uri getMedia(Context context, Cursor c){
 		Uri media;
+
+        final int mediaLocalCol = c.getColumnIndexOrThrow(_LOCAL_URI);
+        final int mediaCol = c.getColumnIndexOrThrow(_MEDIA_URL);
+
+
+
 		if (! c.isNull(mediaLocalCol)){
 			media = Uri.parse(c.getString(mediaLocalCol));
-		}else if (! c.isNull(mediaCol)){
-			media = Uri.parse(c.getString(mediaCol));
-		}else{
-			media = null;
-		}
+
+        } else if (shouldShowLowQuality(context)) {
+            final int mediaLowResCol = c.getColumnIndexOrThrow(_LOW_BITRATE_URL);
+            media = Uri.parse(c.getString(mediaLowResCol));
+
+        } else if (!c.isNull(mediaCol)) {
+            media = Uri.parse(c.getString(mediaCol));
+
+        } else {
+            media = null;
+        }
+
 		return media;
 	}
 
-	public static void showMedia(Context context, Cursor c, Uri castMediaUri){
+    /**
+     * Attempts to guess if the video player should show a high quality version of the video or a
+     * lower bitrate version.
+     *
+     * @return true if it seems as though playing high-quality would be expensive or wouldn't work
+     */
+    public static boolean shouldShowLowQuality(Context context) {
+        final ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        final boolean metered = ConnectivityManagerCompat.isActiveNetworkMetered(cm);
+        final NetworkInfo net = cm.getActiveNetworkInfo();
+
+        if (metered || net.isRoaming()) {
+            return true;
+        }
+
+        // this is because these devices tend to not be able to be powerful enough to show the full
+        // res video
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            return true;
+        }
+
+        final int type = net.getType();
+
+        switch (type) {
+        // generally these are fast and cheap/free
+            case ConnectivityManager.TYPE_WIFI:
+            case ConnectivityManager.TYPE_ETHERNET:
+            case ConnectivityManager.TYPE_WIMAX:
+                return false;
+
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * @param c
+     * @return true if there is a low-res copy of the media
+     */
+    public static boolean hasLowBitrate(Cursor c) {
+        final String mediaString = c.getString(c.getColumnIndex(CastMedia._LOW_BITRATE_URL));
+
+        return mediaString != null && mediaString.length() > 0;
+    }
+
+    /**
+     * @param context
+     * @param c
+     * @param castMediaUri
+     *
+     */
+    public static void showMedia(Context context, Cursor c, Uri castMediaUri){
 		final String mediaString = c.getString(c
 				.getColumnIndex(CastMedia._MEDIA_URL));
 		final String locMediaString = c.getString(c
@@ -262,6 +348,10 @@ public class CastMedia extends JsonSyncableItem {
 		 */
 		private static final long serialVersionUID = 8477549708016150941L;
 
+        public static final String KEY_COMPRESSED = "compressed_file";
+
+        public static final String KEY_PRIMARY = "primary";
+
 		public ItemSyncMap() {
 			super();
 
@@ -288,11 +378,18 @@ public class CastMedia extends JsonSyncableItem {
 					final ContentValues cv = new ContentValues();
 
 					final JSONObject jo = item.getJSONObject(remoteKey);
-					if (jo.has("primary")){
-						final JSONObject primary = jo.getJSONObject("primary");
+                    if (jo.has(KEY_COMPRESSED)) {
+                        final JSONObject primary = jo.getJSONObject(KEY_COMPRESSED);
+                        cv.put(_LOW_BITRATE_MIME_TYPE, primary.getString("mime_type"));
+                        cv.put(_LOW_BITRATE_URL, primary.getString("url"));
+                    }
+
+                    if (jo.has(KEY_PRIMARY)) {
+                        final JSONObject primary = jo.getJSONObject(KEY_PRIMARY);
 						cv.put(_MIME_TYPE, primary.getString("mime_type"));
 						cv.put(_MEDIA_URL, primary.getString("url"));
 					}
+
 					if (jo.has("medium")){
 						final JSONObject screenshot = jo.getJSONObject("medium");
 						cv.put(_THUMBNAIL, screenshot.getString("url"));

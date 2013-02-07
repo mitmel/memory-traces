@@ -75,7 +75,7 @@ public class VideoPlayer extends FragmentActivity implements LoaderCallbacks<Cur
 
 	private static final String[] CASTMEDIA_PROJECTION = new String[] { CastMedia._ID,
 			CastMedia._DESCRIPTION, CastMedia._TITLE, CastMedia._LOCAL_URI, CastMedia._MEDIA_URL,
-			CastMedia._MIME_TYPE };
+            CastMedia._MIME_TYPE, CastMedia._LOW_BITRATE_MIME_TYPE, CastMedia._LOW_BITRATE_URL };
 	//
 	private static final int MSG_HIDE_TITLE = 0;
 
@@ -209,14 +209,14 @@ public class VideoPlayer extends FragmentActivity implements LoaderCallbacks<Cur
 	public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
 		if (!mVideoView.isPlaying()) {
 			c.moveToFirst();
+
 			final String mimeType = c.getString(c.getColumnIndex(CastMedia._MIME_TYPE));
 
 			if (!mimeType.startsWith("video/")) {
 				Log.e(TAG, "mime type of content is not video:" + mimeType);
 			}
 
-			final Uri media = CastMedia.getMedia(c, c.getColumnIndex(CastMedia._MEDIA_URL),
-					c.getColumnIndex(CastMedia._LOCAL_URI));
+            final Uri media = CastMedia.getMedia(this, c);
 
 			final String title = c.getString(c.getColumnIndex(CastMedia._TITLE));
 

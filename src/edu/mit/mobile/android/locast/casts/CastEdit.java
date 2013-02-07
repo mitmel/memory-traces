@@ -572,10 +572,7 @@ public class CastEdit extends MapFragmentActivity implements OnClickListener,
 							c.getColumnIndex(CastMedia._THUMB_LOCAL));
 
 					if (thumb == null) {
-						thumb = CastMedia.getMedia(c,
-
-						c.getColumnIndex(CastMedia._MEDIA_URL),
-								c.getColumnIndex(CastMedia._LOCAL_URI));
+                        thumb = CastMedia.getMedia(this, c);
 					}
 
 					if (thumb != null) {
