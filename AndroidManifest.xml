@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.mit.mobile.android.locast.memorytraces"
     android:installLocation="auto"
-    android:versionCode="33"
-    android:versionName="2.4 Memory Traces" >
+    android:versionCode="34"
+    android:versionName="2.5 Memory Traces" >
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
