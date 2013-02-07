@@ -20,7 +20,9 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import edu.mit.mobile.android.content.UriPath;
 
+@UriPath(Cast.PATH)
 public class Cast extends TaggableItem implements Favoritable.Columns, Locatable.Columns, Commentable.Columns {
 	public final static String TAG = "LocastSyncCast";
 	public final static String PATH = "casts";

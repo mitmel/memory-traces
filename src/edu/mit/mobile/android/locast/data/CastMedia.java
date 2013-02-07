@@ -95,7 +95,7 @@ public class CastMedia extends JsonSyncableItem {
 	@DBColumn(type=TextColumn.class)
 	public final static String _THUMB_LOCAL = "local_thumb"; // filename of the local thumbnail
 
-	@DBForeignKeyColumn(Cast.class)
+    @DBForeignKeyColumn(parent = Cast.class)
 	public final static String CAST = "cast_id";
 
 	public final static String PATH = "media";

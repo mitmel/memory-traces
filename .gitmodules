@@ -4,3 +4,6 @@
 [submodule "libs-src/image_cache"]
 	path = libs-src/image_cache
 	url = git@github.com:mitmel/Android-Image-Cache.git
+[submodule "libs-src/simple-content-provider"]
+	path = libs-src/simple-content-provider
+	url = git://github.com/mitmel/SimpleContentProvider.git

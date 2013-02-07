@@ -35,8 +35,10 @@ import android.text.TextUtils;
 
 import com.google.android.maps.GeoPoint;
 
+import edu.mit.mobile.android.content.UriPath;
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
 
+@UriPath(Itinerary.PATH)
 public class Itinerary extends TaggableItem implements Favoritable.Columns {
 	public final static String PATH = "itineraries";
 	public final static Uri CONTENT_URI = Uri
