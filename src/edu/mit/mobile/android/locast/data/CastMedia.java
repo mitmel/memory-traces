@@ -205,7 +205,7 @@ public class CastMedia extends JsonSyncableItem {
         final boolean metered = ConnectivityManagerCompat.isActiveNetworkMetered(cm);
         final NetworkInfo net = cm.getActiveNetworkInfo();
 
-        if (metered || net.isRoaming()) {
+        if (metered || net == null || net.isRoaming()) {
             return true;
         }
 
