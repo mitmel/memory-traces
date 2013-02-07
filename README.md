@@ -1,40 +1,17 @@
-Locast Abruzzo 
-==============
+Memory Traces
+=============
 
-Locast Abruzzo is an Android application that works in conjunction with the
-Locast web platform. It provides a browsing interface to all the content on the
-site, as well as 'favorite' integration to show a user's favorite content.
+Memory Traces is an interactive documentary showcasing the memories
+prominent Italian-Americans in the Boston community.
 
-Server Communication
---------------------
+See the [Memory Traces][] site for more details.
 
-The application communicates with the server using a public RESTful API,
-allowing both authenticated an unauthenticated API requests.
-
-The API's base URL is stored in the key `default_api_url` in
-[strings.xml](res/values/strings.xml#default_api_url).
-
-There is also a user-definable way of setting the base URL which can be
-accessed by going to Locast Abruzzo Home → menu → login → menu → set locast
-site.
-
-Built-in Updater
-----------------
-
-The app also has a built-in updater that checks in the background to see if
-there's a new version of the app. It queries a URL for a JSON document that
-describes the download location as well as the changes that were made between
-versions. An example of the JSON document can be found in
-[lca.json](extra/lca.json). 
-
-The URL of the JSON document is stored in the key `app_update_url` in
-[strings.xml](res/values/strings.xml#app_update_url).
+This project was built with [Open Locast][].
 
 Dependencies
 ------------
 *   [MEL ImageCache][]
-*   [MelAUtils][]
-*   [AppUpdateChecker][]
+*   [MelAUtils][] (included)
 *   [CWAC Adapter Wrapper][] (included)
 *   [android-support-v4][] (included)
 *   [Apache HTTP MIME][] (included)
@@ -47,18 +24,12 @@ be set. To do this, run:
 
     ./set_maps_keys.sh KEY
 
-where KEY is either 'dev', 'prod' or your own API key.
-
-Translation
------------
-
-While any tool can be used to do translation, we have used [android2po][]
-to convert to/from standard gettext .po files in conjunction with [Pootle][].
+where KEY your Google Maps v1 API key.
 
 License
 -------
-Locast Android client  
-Copyright 2010-2011 [MIT Mobile Experience Lab][mel]
+Memory Traces mobile app  
+Copyright 2010-2013 [MIT Mobile Experience Lab][mel]
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -74,6 +45,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+[Memory Traces]: http://locast.mit.edu/memorytraces/
+[Open Locast]: http://locast.mit.edu/
 [CWAC Adapter Wrapper]: https://github.com/commonsguy/cwac-adapter
 [android-support-v4]: http://android-developers.blogspot.com/2011/03/fragments-for-all.html
 [android2po]: https://github.com/miracle2k/android2po/
