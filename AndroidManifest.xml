@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.mit.mobile.android.locast.memorytraces"
     android:installLocation="auto"
-    android:versionCode="34"
-    android:versionName="2.5 Memory Traces" >
+    android:versionCode="35"
+    android:versionName="2.5.1" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -46,6 +46,12 @@
         android:required="false" />
     <uses-feature
         android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
         android:required="false" />
 
     <application
@@ -120,7 +126,6 @@
                 <data android:mimeType="vnd.android.cursor.dir/vnd.edu.mit.mobile.android.locast.memorytraces.itineraries" />
             </intent-filter>
         </activity>
-
         <activity android:name="edu.mit.mobile.android.locast.memorytraces.StoryDetail" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -209,14 +214,16 @@
                     android:host="locast.mit.edu"
                     android:pathPrefix="/memorytraces"
                     android:scheme="https" />
-<!--                 <data
+                <!--
+                     <data
                     android:host="mel-pydev.mit.edu"
                     android:pathPrefix="/memorytraces"
                     android:scheme="http" />
                 <data
                     android:host="mel-pydev.mit.edu"
                     android:pathPrefix="/memorytraces"
-                    android:scheme="https" /> -->
+                    android:scheme="https" />
+                -->
             </intent-filter>
         </service>
 
