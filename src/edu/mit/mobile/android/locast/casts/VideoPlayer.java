@@ -21,6 +21,7 @@ package edu.mit.mobile.android.locast.casts;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -291,22 +292,27 @@ public class VideoPlayer extends FragmentActivity implements LoaderCallbacks<Cur
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			try {
-				final Method setSystemUiVisibility = View.class.getMethod("setSystemUiVisibility",
-						int.class);
-				setSystemUiVisibility.invoke(getWindow().getDecorView(),
-						fullscreen ? View.SYSTEM_UI_FLAG_LOW_PROFILE : 0);
-			} catch (final NoSuchMethodException e) {
-				Log.e(TAG, "missing setSystemUiVisibility method, despite version checking", e);
-			} catch (final IllegalArgumentException e) {
-				Log.e(TAG, "reflection error", e);
-			} catch (final IllegalAccessException e) {
-				Log.e(TAG, "reflection error", e);
-			} catch (final InvocationTargetException e) {
-				Log.e(TAG, "reflection error", e);
-			}
+            setFullscreenICS(fullscreen);
 		}
 	}
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setFullscreenICS(boolean fullscreen) {
+        try {
+            final Method setSystemUiVisibility = View.class.getMethod("setSystemUiVisibility",
+                    int.class);
+            setSystemUiVisibility.invoke(getWindow().getDecorView(),
+                    fullscreen ? View.SYSTEM_UI_FLAG_LOW_PROFILE : 0);
+        } catch (final NoSuchMethodException e) {
+            Log.e(TAG, "missing setSystemUiVisibility method, despite version checking", e);
+        } catch (final IllegalArgumentException e) {
+            Log.e(TAG, "reflection error", e);
+        } catch (final IllegalAccessException e) {
+            Log.e(TAG, "reflection error", e);
+        } catch (final InvocationTargetException e) {
+            Log.e(TAG, "reflection error", e);
+        }
+    }
 
 	@Override
 	public void onPrepared(MediaPlayer arg0) {

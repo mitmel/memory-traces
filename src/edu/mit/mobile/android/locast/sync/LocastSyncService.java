@@ -28,6 +28,7 @@ import org.json.JSONException;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.OnAccountsUpdateListener;
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -38,6 +39,7 @@ import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -176,7 +178,8 @@ public class LocastSyncService extends Service {
 			}
 		}
 
-		@Override
+        @TargetApi(Build.VERSION_CODES.FROYO)
+        @Override
 		public void onSyncCanceled() {
 			if (DEBUG) {
 				Log.d(TAG, "onSyncCanceled()");

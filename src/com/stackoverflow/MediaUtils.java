@@ -27,7 +27,7 @@ public class MediaUtils {
 
 		} catch (final IOException e) {
 			e.printStackTrace();
-			tmp = "/sdcard/tmp/locast_new.jpg";
+            tmp = Environment.getExternalStorageDirectory().getPath() + "/tmp/locast_new.jpg";
 		}
 		TMP_SD_LOCATION = tmp;
 

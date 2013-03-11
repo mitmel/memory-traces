@@ -21,7 +21,6 @@ package edu.mit.mobile.android.locast.casts;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -46,8 +45,6 @@ import com.stackoverflow.ArrayUtils;
 import edu.mit.mobile.android.imagecache.ImageCache;
 import edu.mit.mobile.android.imagecache.ImageLoaderAdapter;
 import edu.mit.mobile.android.locast.Constants;
-import edu.mit.mobile.android.locast.accounts.Authenticator;
-import edu.mit.mobile.android.locast.accounts.SigninOrSkip;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.CastMedia;
 import edu.mit.mobile.android.locast.itineraries.LocatableItemOverlay;
@@ -56,7 +53,6 @@ import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.sync.LocastSync;
 import edu.mit.mobile.android.locast.sync.LocastSyncObserver;
 import edu.mit.mobile.android.locast.sync.LocastSyncStatusObserver;
-import edu.mit.mobile.android.locast.widget.FavoriteClickHandler;
 import edu.mit.mobile.android.widget.NotificationProgressBar;
 import edu.mit.mobile.android.widget.RefreshButton;
 import edu.mit.mobile.android.widget.ValidatingCheckBox;
@@ -123,9 +119,6 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 		findViewById(R.id.refresh).setOnClickListener(this);
 		mRefresh = (RefreshButton) findViewById(R.id.refresh);
 		mRefresh.setOnClickListener(this);
-		vcb = (ValidatingCheckBox) findViewById(R.id.favorite);
-
-		vcb.setValidatedClickHandler(new MyFavoriteClickHandler(this, data));
 
 		final Gallery castMediaView = (Gallery) findViewById(R.id.cast_media);
 
@@ -258,43 +251,6 @@ public class CastDetail extends LocatableDetail implements LoaderManager.LoaderC
 		mCastsOverlay = new CastsOverlay(this, (MapView) findViewById(R.id.map));
 		mCastsOverlay.setShowBalloon(false);
 		return mCastsOverlay;
-	}
-
-	private class MyFavoriteClickHandler extends FavoriteClickHandler {
-		private boolean shouldActuallyDoIt = true;
-
-		public MyFavoriteClickHandler(Context context, Uri favoritableItem) {
-			super(context, favoritableItem);
-		}
-
-		@Override
-		public Boolean performClick(ValidatingCheckBox checkBox) {
-			if (shouldActuallyDoIt) {
-				return super.performClick(checkBox);
-			} else {
-				return null;
-			}
-		}
-
-		@Override
-		public void prePerformClick(final ValidatingCheckBox checkBox) {
-			if (!Authenticator.hasRealAccount(CastDetail.this)) {
-				startActivityForResult(
-						new Intent(CastDetail.this, SigninOrSkip.class).putExtra(
-								SigninOrSkip.EXTRA_MESSAGE,
-								getText(R.string.auth_signin_for_favorites)).putExtra(
-								SigninOrSkip.EXTRA_SKIP_IS_CANCEL, true), REQUEST_SIGNIN);
-				shouldActuallyDoIt = false;
-				mDoAfterAuthentication = new Runnable() {
-
-					@Override
-					public void run() {
-						shouldActuallyDoIt = true;
-						performClick(checkBox);
-					}
-				};
-			}
-		}
 	}
 
 	private Runnable mDoAfterAuthentication;

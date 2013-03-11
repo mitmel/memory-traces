@@ -42,8 +42,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -52,12 +50,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import edu.mit.mobile.android.locast.Constants;
-import edu.mit.mobile.android.locast.SettingsActivity;
 import edu.mit.mobile.android.locast.data.Cast;
 import edu.mit.mobile.android.locast.data.MediaProvider;
+import edu.mit.mobile.android.locast.memorytraces.R;
 import edu.mit.mobile.android.locast.net.NetworkClient;
 import edu.mit.mobile.android.locast.net.NetworkProtocolException;
-import edu.mit.mobile.android.locast.memorytraces.R;
 
 /**
  * Activity which displays login screen to the user.
@@ -430,28 +427,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 		public void attach(AuthenticatorActivity activity) {
 			mActivity = activity;
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login_options, menu);
-		if (Constants.DEBUG) {
-			menu.findItem(R.id.set_base_url).setVisible(true);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.set_base_url:
-				startActivity(new Intent(this, SettingsActivity.class));
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
 		}
 	}
 

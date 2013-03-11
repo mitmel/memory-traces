@@ -47,7 +47,6 @@ import edu.mit.mobile.android.imagecache.ImageCache;
 import edu.mit.mobile.android.imagecache.ImageLoaderAdapter;
 import edu.mit.mobile.android.imagecache.SimpleThumbnailCursorAdapter;
 import edu.mit.mobile.android.locast.Constants;
-import edu.mit.mobile.android.locast.accounts.SigninOrSkip;
 import edu.mit.mobile.android.locast.data.Itinerary;
 import edu.mit.mobile.android.locast.data.MediaProvider;
 import edu.mit.mobile.android.locast.memorytraces.R;
@@ -144,12 +143,6 @@ public class ItineraryList extends FragmentActivity implements
 
 		} else if (Intent.ACTION_MAIN.equals(action)) {
 			loadData(Itinerary.CONTENT_URI);
-		}
-
-		if (CHECK_FOR_ACCOUNT) {
-			if (SigninOrSkip.startSignin(this, SigninOrSkip.REQUEST_SIGNIN)) {
-				return;
-			}
 		}
 	}
 
@@ -287,22 +280,6 @@ public class ItineraryList extends FragmentActivity implements
 
 			case R.id.home:
 				startActivity(getPackageManager().getLaunchIntentForPackage(getPackageName()));
-				break;
-		}
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-			case SigninOrSkip.REQUEST_SIGNIN:
-				if (resultCode == RESULT_CANCELED) {
-					finish();
-				} else if (resultCode == RESULT_OK) {
-					refresh(false);
-				}
-				break;
-
-			default:
 				break;
 		}
 	}

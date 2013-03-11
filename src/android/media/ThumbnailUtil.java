@@ -61,7 +61,7 @@ public class ThumbnailUtil {
     public static BitmapFactory.Options createNativeAllocOptions() {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inNativeAlloc = true;
-        
+
         return options;
     }
     /**
@@ -258,33 +258,6 @@ public class ThumbnailUtil {
         matrix.setScale(scale, scale);
         final Bitmap miniThumbnail = transform(matrix, source, width, height, true, recycle);
         return miniThumbnail;
-    }
-
-    /**
-     * Create a video thumbnail for a video. May return null if the video is
-     * corrupt.
-     *
-     * @param filePath
-     */
-    public static Bitmap createVideoThumbnail(String filePath) {
-        Bitmap bitmap = null;
-        final MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            retriever.setMode(MediaMetadataRetriever.MODE_CAPTURE_FRAME_ONLY);
-            retriever.setDataSource(filePath);
-            bitmap = retriever.captureFrame();
-        } catch (final IllegalArgumentException ex) {
-            // Assume this is a corrupt video file
-        } catch (final RuntimeException ex) {
-            // Assume this is a corrupt video file.
-        } finally {
-            try {
-                retriever.release();
-            } catch (final RuntimeException ex) {
-                // Ignore failures while cleaning up.
-            }
-        }
-        return bitmap;
     }
 
     /**

@@ -34,7 +34,6 @@ import edu.mit.mobile.android.locast.memorytraces.R;
 public class CastsOverlay extends LocatableItemOverlay {
 	private int mOfficialCol, mTitleCol, mDescriptionCol;
 	private final Drawable mOfficialCastDrawable;
-	private final Drawable mCommunityCastDrawable;
 	private final Context mContext;
 	private int mIdCol;
 
@@ -43,11 +42,10 @@ public class CastsOverlay extends LocatableItemOverlay {
 					Cast._OFFICIAL });
 
 	public CastsOverlay(Context context, MapView mapview) {
-		super(boundCenter(context.getResources().getDrawable(R.drawable.ic_map_community)),
+        super(boundCenter(context.getResources().getDrawable(R.drawable.ic_map_official)),
 				mapview);
 		final Resources res = context.getResources();
 		mOfficialCastDrawable = boundCenter(res.getDrawable(R.drawable.ic_map_official));
-		mCommunityCastDrawable = boundCenter(res.getDrawable(R.drawable.ic_map_community));
 		mContext = context;
 	}
 
@@ -87,11 +85,8 @@ public class CastsOverlay extends LocatableItemOverlay {
 				mLocatableItems.getString(mTitleCol), mLocatableItems.getString(mDescriptionCol),
 				mLocatableItems.getLong(mIdCol));
 
-		if (mLocatableItems.getInt(mOfficialCol) != 0){
-			item.setMarker(mOfficialCastDrawable);
-		}else{
-			item.setMarker(mCommunityCastDrawable);
-		}
+        item.setMarker(mOfficialCastDrawable);
+
 		onCreateItem(item);
 		return item;
 	}

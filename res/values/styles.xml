@@ -47,6 +47,10 @@
 	    <item name="android:textStyle">bold|italic</item>
 	</style>
 	
+	<style name="TextApperance.NotificationTitle" parent="@android:style/TextAppearance">
+	    
+	</style>
+	
  	<!-- Locast semantic styles -->
  	
     <style name="CastMediaItem">

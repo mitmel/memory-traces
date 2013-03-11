@@ -29,8 +29,8 @@ import edu.mit.mobile.android.locast.memorytraces.R;
 
 public class CastCursorAdapter extends SimpleThumbnailCursorAdapter {
 	public final static String[] DEFAULT_FROM = new String[] { Cast._THUMBNAIL_URI, Cast._REF_TIME,
-			Cast._TITLE, Cast._DRAFT };
-	private final static int[] DEFAULT_TO      = new int[] {	R.id.media_thumbnail, 	R.id.ref_time, 	android.R.id.text1, R.id.draft};
+            Cast._TITLE };
+	private final static int[] DEFAULT_TO      = new int[] {	R.id.media_thumbnail, 	R.id.ref_time, 	android.R.id.text1};
 	private final static int[] IMAGE_IDS = new int[] {R.id.media_thumbnail };
 
 	public final static String[] DEFAULT_PROJECTION = ArrayUtils.concat(new String[] { Cast._ID },
@@ -77,14 +77,6 @@ public class CastCursorAdapter extends SimpleThumbnailCursorAdapter {
 				v.setVisibility(View.VISIBLE);
 			}
 			super.setViewText(v, text);
-			break;
-
-		case R.id.draft:
-			if (text != null && text.equals("1")){
-				v.setVisibility(View.VISIBLE);
-			}else{
-				v.setVisibility(View.INVISIBLE);
-			}
 			break;
 
 			default:

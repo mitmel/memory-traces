@@ -19,17 +19,16 @@ public class CastsIconOverlay extends LocatableItemIconOverlay {
 
 	private int mOfficialCol, mTitleCol, mDescriptionCol, mIdCol;
 	private final Drawable mOfficialCastDrawable;
-	private final Drawable mCommunityCastDrawable;
 
 	public static final String[] CASTS_OVERLAY_PROJECTION = ArrayUtils.concat(
 			LOCATABLE_ITEM_PROJECTION, new String[] { Cast._TITLE,
 					Cast._DESCRIPTION, Cast._OFFICIAL });
 
 	public CastsIconOverlay(Context context) {
-		super(context.getResources().getDrawable(R.drawable.ic_map_community));
+        super(context.getResources().getDrawable(R.drawable.ic_map_official));
 		final Resources res = context.getResources();
 		mOfficialCastDrawable = boundCenterBottom(res.getDrawable(R.drawable.ic_map_official));
-		mCommunityCastDrawable = boundCenterBottom(res.getDrawable(R.drawable.ic_map_community));
+
 	}
 
 	@Override
@@ -53,11 +52,7 @@ public class CastsIconOverlay extends LocatableItemIconOverlay {
 				mLocatableItems.getString(mDescriptionCol), mLocatableItems.getLong(mIdCol)
 				);
 
-		if (mLocatableItems.getInt(mOfficialCol) != 0) {
-			item.setMarker(mOfficialCastDrawable);
-		} else {
-			item.setMarker(mCommunityCastDrawable);
-		}
+        item.setMarker(mOfficialCastDrawable);
 
 		return item;
 	}
